@@ -1,0 +1,117 @@
+---
+import { copyByLocale, type Locale } from '../lib/i18n';
+
+interface Props {
+  locale?: Locale;
+}
+
+const { locale = 'en' } = Astro.props;
+const copy = copyByLocale[locale];
+---
+
+<section class="section section-muted features-section" id="product">
+  <div class="container">
+    <div class="section-head">
+      <h2 data-i18n="features.title">{copy.features.title}</h2>
+      <p data-i18n="features.sub">{copy.features.sub}</p>
+    </div>
+
+    <div class="feature-block">
+      <div class="feature-copy">
+        <span class="feature-kicker" aria-hidden="true">01</span>
+        <h3 data-i18n="features.blocks.0.title">{copy.features.blocks[0].title}</h3>
+        <ul>
+          <li data-i18n="features.blocks.0.items.0">{copy.features.blocks[0].items[0]}</li>
+          <li data-i18n="features.blocks.0.items.1">{copy.features.blocks[0].items[1]}</li>
+          <li data-i18n="features.blocks.0.items.2">{copy.features.blocks[0].items[2]}</li>
+          <li data-i18n="features.blocks.0.items.3">{copy.features.blocks[0].items[3]}</li>
+        </ul>
+      </div>
+      <div class="feature-art" data-feature-image data-slide="right" style="--feature-delay: 0ms;">
+        <figure class="phone-frame phone-frame--hero phone-frame--svg">
+          <img
+            src="/onboardingSemi2.svg"
+            width="1150"
+            height="1200"
+            alt={copy.features.blocks[0].imageAlt}
+            data-i18n="features.blocks.0.imageAlt"
+            loading="lazy"
+            decoding="async"
+          />
+        </figure>
+      </div>
+    </div>
+
+    <div class="feature-block reverse" id="progress">
+      <div class="feature-copy">
+        <span class="feature-kicker" aria-hidden="true">02</span>
+        <h3 data-i18n="features.blocks.1.title">{copy.features.blocks[1].title}</h3>
+        <ul>
+          <li data-i18n="features.blocks.1.items.0">{copy.features.blocks[1].items[0]}</li>
+          <li data-i18n="features.blocks.1.items.1">{copy.features.blocks[1].items[1]}</li>
+          <li data-i18n="features.blocks.1.items.2">{copy.features.blocks[1].items[2]}</li>
+          <li data-i18n="features.blocks.1.items.3">{copy.features.blocks[1].items[3]}</li>
+        </ul>
+      </div>
+      <div class="feature-art" data-feature-image data-slide="left" style="--feature-delay: 120ms;">
+        <figure class="phone-frame phone-frame--hero phone-frame--svg">
+          <img
+            src="/statSemi.svg"
+            width="1150"
+            height="1200"
+            alt={copy.features.blocks[1].imageAlt}
+            data-i18n="features.blocks.1.imageAlt"
+            loading="lazy"
+            decoding="async"
+          />
+        </figure>
+      </div>
+    </div>
+
+    <div class="feature-block">
+      <div class="feature-copy">
+        <span class="feature-kicker" aria-hidden="true">03</span>
+        <h3 data-i18n="features.blocks.2.title">{copy.features.blocks[2].title}</h3>
+        <ul>
+          <li data-i18n="features.blocks.2.items.0">{copy.features.blocks[2].items[0]}</li>
+          <li data-i18n="features.blocks.2.items.1">{copy.features.blocks[2].items[1]}</li>
+          <li data-i18n="features.blocks.2.items.2">{copy.features.blocks[2].items[2]}</li>
+          <li data-i18n="features.blocks.2.items.3">{copy.features.blocks[2].items[3]}</li>
+        </ul>
+      </div>
+      <div class="feature-art" data-feature-image data-slide="right" style="--feature-delay: 240ms;">
+        <figure class="phone-frame phone-frame--hero phone-frame--svg">
+          <img
+            src="/homepageSemi.svg"
+            width="1141"
+            height="1200"
+            alt={copy.features.blocks[2].imageAlt}
+            data-i18n="features.blocks.2.imageAlt"
+            loading="lazy"
+            decoding="async"
+          />
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const featureImages = Array.from(document.querySelectorAll('[data-feature-image]'));
+  if (featureImages.length > 0) {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      featureImages.forEach((el) => el.classList.add('is-visible'));
+    } else {
+      const io = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (!(entry.target instanceof HTMLElement)) return;
+            entry.target.classList.toggle('is-visible', entry.isIntersecting);
+          });
+        },
+        { root: null, rootMargin: '0px 0px -10% 0px', threshold: 0.25 }
+      );
+      featureImages.forEach((el) => io.observe(el));
+    }
+  }
+</script>

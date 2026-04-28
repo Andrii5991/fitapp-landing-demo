@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200" fill="none">
+  <rect width="200" height="200" rx="14" fill="#171a1c" stroke="rgba(244,241,242,0.14)" stroke-width="1.5"/>
+  <rect x="24" y="24" width="152" height="152" rx="6" stroke="rgba(244,241,242,0.12)" stroke-dasharray="6 6"/>
+  <path fill="#e85d35" opacity="0.35" d="M44 44h32v32H44V44zm80 0h32v32h-32V44zM44 124h32v32H44v-32zm80 0h32v32h-32v-32z"/>
+  <text x="100" y="104" text-anchor="middle" fill="#a8a0a3" font-family="system-ui,sans-serif" font-size="11" letter-spacing="0.06em">QR � soon</text>
+</svg>

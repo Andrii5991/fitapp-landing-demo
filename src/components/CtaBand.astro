@@ -1,0 +1,42 @@
+---
+import { copyByLocale, type Locale } from '../lib/i18n';
+
+interface Props {
+  locale?: Locale;
+}
+
+const { locale = 'en' } = Astro.props;
+const copy = copyByLocale[locale];
+---
+
+<section class="section">
+  <div class="container">
+    <div class="cta-band">
+      <h2 data-i18n="cta.title">{copy.cta.title}</h2>
+      <p data-i18n="cta.sub">{copy.cta.sub}</p>
+      <a class="btn btn-primary" href="#" data-i18n="cta.button">{copy.cta.button}</a>
+      <figure class="cta-shot cta-band-video">
+        <video
+          class="cta-band-video__media"
+          src="/qwert.mp4"
+          controls
+          playsinline
+          muted
+          loop
+          autoplay
+          preload="metadata"
+          aria-label={copy.cta.imageAlt}
+          data-i18n-aria-label="cta.imageAlt"
+        />
+      </figure>
+    </div>
+  </div>
+</section>
+
+<script>
+  const el = document.querySelector('.cta-band-video__media');
+  if (el instanceof HTMLVideoElement && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    el.removeAttribute('autoplay');
+    el.pause();
+  }
+</script>

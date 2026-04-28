@@ -1,0 +1,22 @@
+# dependencies
+node_modules/
+
+# build
+dist/
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# env
+.env
+.env.production
+.env.local
+
+# os
+.DS_Store
+
+# astro
+.astro/

@@ -1,0 +1,158 @@
+---
+import { copyByLocale, type Locale } from '../lib/i18n';
+
+interface Props {
+  locale?: Locale;
+  basePath?: string;
+  /** Full-bleed hero background (restored). */
+  bgVideoSrc?: string;
+  /** Video in the hero column (replaces the static product image). */
+  stageVideoSrc?: string;
+  /**
+   * VP9 + alpha WebM (transparent edges). Browsers use this first when supported.
+   * H.264 MP4 cannot carry alpha — keep `stageVideoSrc` as fallback (e.g. same clip without alpha).
+   */
+  stageVideoWebmSrc?: string;
+  /** @deprecated use `stageVideoSrc` */
+  videoSrc?: string;
+  /**
+   * When `stageVideoSrc` is `.mov` (e.g. ProRes), Chrome often cannot play it in `<video>`.
+   * This H.264/MP4 clip is listed after the MOV so unsupported browsers still show a stage video.
+   */
+  stageVideoCompatSrc?: string;
+  imageAlt?: string;
+}
+
+const {
+  locale = 'en',
+  basePath = '',
+  bgVideoSrc = '/hero-bg-video.mp4',
+  stageVideoSrc,
+  stageVideoWebmSrc,
+  stageVideoCompatSrc,
+  videoSrc,
+  imageAlt,
+} = Astro.props;
+
+const stageVideoSrcFinal = stageVideoSrc ?? videoSrc ?? '/hero-video.mp4';
+
+const stageFallbackMime = (() => {
+  const s = stageVideoSrcFinal.toLowerCase();
+  if (s.endsWith('.webm')) return 'video/webm';
+  if (s.endsWith('.mov')) return 'video/quicktime';
+  if (s.endsWith('.mp4') || s.endsWith('.m4v')) return 'video/mp4';
+  return 'video/mp4';
+})();
+
+const stageCompatFinal =
+  stageVideoCompatSrc ??
+  (stageVideoSrcFinal.toLowerCase().endsWith('.mov') ? '/hero-video.mp4' : null);
+
+const stageIsImage = /\.(svg|png|jpe?g|webp|avif|gif)$/i.test(stageVideoSrcFinal);
+
+const copy = copyByLocale[locale];
+---
+
+<section class="hero">
+  <div class="hero-bg-video" aria-hidden="true">
+    <video
+      class="hero-video js-hero-autoplay-video"
+      src={bgVideoSrc}
+      muted
+      autoplay
+      loop
+      playsinline
+      preload="auto"
+      disablepictureinpicture
+      disableremoteplayback
+    ></video>
+  </div>
+  <div class="container hero-grid">
+    <div class="hero-copy">
+      <p class="eyebrow" data-i18n="hero.eyebrow">{copy.hero.eyebrow}</p>
+      <h1 class="hero-title">
+        <span class="line" data-i18n="hero.line1">{copy.hero.line1}</span>
+        <span class="line" data-i18n="hero.line2">{copy.hero.line2}</span>
+      </h1>
+      <p class="hero-sub" data-i18n="hero.sub">
+        {copy.hero.sub}
+      </p>
+      <div class="hero-ctas">
+        <a class="btn btn-primary" id="cta" href="#" data-i18n="hero.ctaPrimary">{copy.hero.ctaPrimary}</a>
+        <a class="btn btn-ghost" href={`${basePath}#product`} data-locale-section="product" data-i18n="hero.ctaSecondary">{copy.hero.ctaSecondary}</a>
+      </div>
+      <div class="rating-row">
+        <span class="rating-stars" aria-hidden="true">
+          <svg class="rating-star" viewBox="0 0 24 24" focusable="false"><path fill="currentColor" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          <svg class="rating-star" viewBox="0 0 24 24" focusable="false"><path fill="currentColor" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          <svg class="rating-star" viewBox="0 0 24 24" focusable="false"><path fill="currentColor" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          <svg class="rating-star" viewBox="0 0 24 24" focusable="false"><path fill="currentColor" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          <svg class="rating-star" viewBox="0 0 24 24" focusable="false"><path fill="currentColor" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+        </span>
+        <span><strong class="text-body">4.9</strong> App Store · <strong class="text-body">4.9</strong> Google Play</span>
+        <span data-i18n="hero.trust">{copy.hero.trust}</span>
+      </div>
+      <div class="hero-meta">
+        <span class="hero-chip" data-i18n="hero.chips.0">{copy.hero.chips[0]}</span>
+        <span class="hero-chip" data-i18n="hero.chips.1">{copy.hero.chips[1]}</span>
+        <span class="hero-chip" data-i18n="hero.chips.2">{copy.hero.chips[2]}</span>
+      </div>
+    </div>
+    <figure class="hero-stage">
+      <div class:list={['hero-stage-video-wrap', stageIsImage && 'hero-stage-media-wrap--image']}>
+        {stageIsImage ? (
+          <img
+            class="hero-stage-image"
+            src={stageVideoSrcFinal}
+            alt={imageAlt ?? copy.hero.imageAlt}
+            data-i18n-alt="hero.imageAlt"
+            loading="eager"
+            decoding="async"
+          />
+        ) : (
+          <video
+            class="hero-stage-video js-hero-autoplay-video"
+            muted
+            autoplay
+            loop
+            playsinline
+            preload={stageVideoSrcFinal.toLowerCase().endsWith('.mov') ? 'auto' : 'metadata'}
+            disablepictureinpicture
+            disableremoteplayback
+            aria-label={imageAlt ?? copy.hero.imageAlt}
+            data-i18n-aria-label="hero.imageAlt"
+          >
+            {stageVideoWebmSrc ? <source src={stageVideoWebmSrc} type="video/webm" /> : null}
+            <source src={stageVideoSrcFinal} type={stageFallbackMime} />
+            {stageCompatFinal ? <source src={stageCompatFinal} type="video/mp4" /> : null}
+          </video>
+        )}
+      </div>
+      <figcaption data-i18n="hero.figcaption">{copy.hero.figcaption}</figcaption>
+    </figure>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll('.js-hero-autoplay-video').forEach((node) => {
+    if (!(node instanceof HTMLVideoElement)) return;
+    const v = node;
+    v.muted = true;
+    v.loop = true;
+    v.playbackRate = 1;
+
+    const tryPlay = () => {
+      v.muted = true;
+      void v.play().catch(() => {});
+    };
+
+    tryPlay();
+    v.addEventListener('loadeddata', tryPlay);
+    v.addEventListener('canplay', tryPlay);
+
+    v.addEventListener('ended', () => {
+      v.currentTime = 0;
+      tryPlay();
+    });
+  });
+</script>

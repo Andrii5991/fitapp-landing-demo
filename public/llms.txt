@@ -1,0 +1,27 @@
+# PushLab
+
+PushLab is a workout tracking app for athletes who want consistent training data and visible progress.
+
+## Core message
+Train anything. Track everything.
+
+## What PushLab helps with
+- Log workouts across strength, cardio, yoga, Pilates, and stretching
+- Track weekly volume, consistency, and personal best trends
+- Save training templates and program structure
+- Log offline and sync when online
+
+## Key pages
+- /en/ : English product overview and feature highlights
+- /es/ : Spanish product overview and feature highlights
+- /pt-br/ : Portuguese (Brazil) product overview and feature highlights
+- /de/ : German product overview and feature highlights
+- /fr/ : French product overview and feature highlights
+- /en/#product : Core workout logging and tracking features
+- /en/#progress : Progress insights and trend-focused workflows
+- /en/#platforms : Supported platforms and devices
+- /en/#faq : Common questions and direct answers
+- /pricing.md : Machine-readable pricing for AI assistants and buyers
+
+## Sources and references
+- WHO physical activity guidance: https://www.who.int/news-room/fact-sheets/detail/physical-activity

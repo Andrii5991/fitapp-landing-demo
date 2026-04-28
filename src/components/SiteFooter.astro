@@ -1,0 +1,78 @@
+---
+import { SUPPORTED_LOCALES, copyByLocale, type Locale } from '../lib/i18n';
+
+interface Props {
+  locale?: Locale;
+  basePath?: string;
+}
+
+const { locale = 'en', basePath = '' } = Astro.props;
+const copy = copyByLocale[locale];
+const year = new Date().getFullYear();
+const localeLabel: Record<Locale, string> = {
+  en: 'English',
+  es: 'Espanol',
+  'pt-br': 'Portugues (BR)',
+  de: 'Deutsch',
+  fr: 'Francais',
+};
+---
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div>
+      <div class="footer-brand">PushLab</div>
+      <p data-i18n="footer.tagline">{copy.footer.tagline}</p>
+      <div class="language-switcher footer-language-switcher" data-i18n-aria-label="nav.languageLabel">
+        <details class="language-dropdown">
+          <summary class="language-summary">{localeLabel[locale]}</summary>
+          <ul class="language-menu" role="list">
+            {
+              SUPPORTED_LOCALES.map((lang) => (
+                <li>
+                  <a
+                    class:list={['language-option', locale === lang && 'is-active']}
+                    href={`/${lang}/`}
+                    data-switch-locale={lang}
+                  >
+                    {localeLabel[lang]}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </details>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4 data-i18n="footer.product">{copy.footer.product}</h4>
+      <ul>
+        <li>
+          <a href={`${basePath}#product`} data-locale-section="product" data-i18n="footer.features">{copy.footer.features}</a>
+        </li>
+        <li>
+          <a href={`${basePath}#platforms`} data-locale-section="platforms" data-i18n="footer.platforms">{copy.footer.platforms}</a>
+        </li>
+        <li><a href="#" data-i18n="footer.changelog">{copy.footer.changelog}</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4 data-i18n="footer.company">{copy.footer.company}</h4>
+      <ul>
+        <li><a href="#" data-i18n="footer.about">{copy.footer.about}</a></li>
+        <li><a href="#" data-i18n="footer.careers">{copy.footer.careers}</a></li>
+        <li><a href="#" data-i18n="footer.contact">{copy.footer.contact}</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4 data-i18n="footer.legal">{copy.footer.legal}</h4>
+      <ul>
+        <li><a href="#" data-i18n="footer.privacy">{copy.footer.privacy}</a></li>
+        <li><a href="#" data-i18n="footer.terms">{copy.footer.terms}</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="container footer-bottom">
+    © {year} PushLab. <span data-i18n="footer.legalLine">{copy.footer.legalLine}</span>
+  </div>
+</footer>

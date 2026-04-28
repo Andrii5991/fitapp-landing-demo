@@ -1,0 +1,113 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SkipLink from '../../components/SkipLink.astro';
+import SiteHeader from '../../components/SiteHeader.astro';
+import Hero from '../../components/Hero.astro';
+import WorkflowCarousel from '../../components/WorkflowCarousel.astro';
+import Features from '../../components/Features.astro';
+import Platforms from '../../components/Platforms.astro';
+import Faq from '../../components/Faq.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import SiteFooter from '../../components/SiteFooter.astro';
+import { copyByLocale, getLocaleFromParam, SUPPORTED_LOCALES, type Locale } from '../../lib/i18n';
+
+export function getStaticPaths() {
+  return SUPPORTED_LOCALES.map((locale) => ({ params: { locale } }));
+}
+
+const locale = getLocaleFromParam(Astro.params.locale);
+const copy = copyByLocale[locale];
+const basePath = `/${locale}/`;
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? 'https://pushlab.app';
+
+const faqEntries = copy.faq.items.map((item) => ({
+  question: item.question,
+  answer: item.answer,
+}));
+
+const languageUrls = Object.fromEntries(
+  SUPPORTED_LOCALES.map((lang) => [lang, `${siteUrl}/${lang}/`])
+) as Record<Locale, string>;
+
+const alternates = [
+  ...SUPPORTED_LOCALES.map((lang) => ({ hreflang: lang, href: languageUrls[lang] })),
+  { hreflang: 'x-default', href: languageUrls.en },
+];
+
+const clientI18nJson = JSON.stringify(copyByLocale);
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    '@id': `${siteUrl}/#organization`,
+    name: 'PushLab',
+    url: siteUrl,
+    description:
+      'PushLab helps athletes track workouts, monitor progress, and stay consistent across strength, cardio, yoga, Pilates, and stretching.',
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    '@id': `${siteUrl}/#website`,
+    url: siteUrl,
+    name: 'PushLab',
+    description: copy.hero.line1 + ' ' + copy.hero.line2,
+    inLanguage: locale,
+    publisher: {
+      '@id': `${siteUrl}/#organization`,
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'SoftwareApplication',
+    '@id': `${siteUrl}/#software`,
+    name: 'PushLab',
+    url: siteUrl,
+    applicationCategory: 'HealthApplication',
+    operatingSystem: 'iOS, Android, Web, Wear OS, Apple Watch',
+    inLanguage: locale,
+    description:
+      'PushLab helps athletes track workouts, monitor progress, and stay consistent across strength, cardio, yoga, Pilates, and stretching.',
+    publisher: {
+      '@id': `${siteUrl}/#organization`,
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    inLanguage: locale,
+    mainEntity: faqEntries.map((entry) => ({
+      '@type': 'Question',
+      name: entry.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: entry.answer,
+      },
+    })),
+  },
+];
+---
+
+<BaseLayout
+  title={copy.meta.title}
+  description={copy.meta.description}
+  jsonLd={jsonLd}
+  lang={locale}
+  alternates={alternates}
+  clientI18nJson={clientI18nJson}
+>
+  <SkipLink />
+  <SiteHeader locale={locale} basePath={basePath} />
+
+  <main id="main">
+    <Hero locale={locale} basePath={basePath} stageVideoSrc="/Natural-Titanium%20(1).svg" />
+    <WorkflowCarousel locale={locale} />
+    <Features locale={locale} />
+    <Faq locale={locale} />
+    <Platforms locale={locale} />
+    <CtaBand locale={locale} />
+  </main>
+
+  <SiteFooter locale={locale} basePath={basePath} />
+</BaseLayout>

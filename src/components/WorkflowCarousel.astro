@@ -1,0 +1,87 @@
+---
+import { copyByLocale, type Locale } from '../lib/i18n';
+
+interface Props {
+  locale?: Locale;
+}
+
+const { locale = 'en' } = Astro.props;
+const copy = copyByLocale[locale];
+const slides = copy.workflow.slides;
+
+/** One screen per step: Train → workout, Log → calendar, Repeat → stats */
+const workflowSlideArt = [
+  { src: '/workoutSemi.svg', w: 1150, h: 1200 },
+  { src: '/calendarSemi.svg', w: 1150, h: 1200 },
+  { src: '/statSemi.svg', w: 1150, h: 1200 },
+] as const;
+---
+
+<section class="section section-muted" id="workflow" aria-labelledby="workflow-heading">
+  <div class="container">
+    <div class="section-head section-head--center">
+      <div class="workflow-kicker-wrap">
+        <p class="eyebrow" data-i18n="workflow.kicker">{copy.workflow.kicker}</p>
+      </div>
+      <h2 id="workflow-heading" data-i18n="workflow.title">{copy.workflow.title}</h2>
+      <p data-i18n="workflow.sub">{copy.workflow.sub}</p>
+    </div>
+
+    <div class="workflow-steps" data-workflow-reveal>
+      {
+        slides.map((slide, i) => {
+          const art = workflowSlideArt[i];
+          return (
+          <div class="workflow-step">
+            <article class="workflow-card" aria-labelledby={`workflow-card-${i}-title`}>
+              <span class="workflow-card-step" aria-hidden="true">
+                {String(i + 1).padStart(2, '0')}
+              </span>
+              <p class="workflow-card-tag" data-i18n={`workflow.slides.${i}.tag`}>
+                {slide.tag}
+              </p>
+              <h3 class="workflow-card-title" id={`workflow-card-${i}-title`} data-i18n={`workflow.slides.${i}.title`}>
+                {slide.title}
+              </h3>
+              <p class="workflow-card-body" data-i18n={`workflow.slides.${i}.body`}>
+                {slide.body}
+              </p>
+              {art ? (
+                <div class="workflow-card-art">
+                  <img
+                    src={art.src}
+                    width={art.w}
+                    height={art.h}
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </div>
+              ) : null}
+            </article>
+          </div>
+          );
+        })
+      }
+    </div>
+  </div>
+</section>
+
+<script>
+  const root = document.querySelector('[data-workflow-reveal]');
+  if (root instanceof HTMLElement) {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      root.classList.add('is-revealed');
+    } else {
+      const io = new IntersectionObserver(
+        (entries) => {
+          const hit = entries.find((e) => e.target === root);
+          if (!hit) return;
+          root.classList.toggle('is-revealed', hit.isIntersecting);
+        },
+        { root: null, rootMargin: '0px 0px -8% 0px', threshold: 0.1 }
+      );
+      io.observe(root);
+    }
+  }
+</script>

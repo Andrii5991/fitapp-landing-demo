@@ -1,0 +1,45 @@
+---
+import { copyByLocale, type Locale } from '../lib/i18n';
+
+interface Props {
+  locale?: Locale;
+}
+
+const { locale = 'en' } = Astro.props;
+const copy = copyByLocale[locale];
+const lastUpdated = new Date().toISOString().slice(0, 10);
+---
+
+<section class="section" id="faq">
+  <div class="container">
+    <div class="section-head">
+      <h2 data-i18n="faq.title">{copy.faq.title}</h2>
+      <p data-i18n="faq.sub">{copy.faq.sub}</p>
+      <p class="faq-updated">
+        <span data-i18n="faq.updated">{copy.faq.updated}</span>: <span class="faq-date">{lastUpdated}</span>
+      </p>
+    </div>
+    <div class="faq-list">
+      <article class="faq-item">
+        <h3 data-i18n="faq.items.0.question">{copy.faq.items[0].question}</h3>
+        <p data-i18n="faq.items.0.answer">{copy.faq.items[0].answer}</p>
+      </article>
+      <article class="faq-item">
+        <h3 data-i18n="faq.items.1.question">{copy.faq.items[1].question}</h3>
+        <p data-i18n="faq.items.1.answer">{copy.faq.items[1].answer}</p>
+      </article>
+      <article class="faq-item">
+        <h3 data-i18n="faq.items.2.question">{copy.faq.items[2].question}</h3>
+        <p data-i18n="faq.items.2.answer">{copy.faq.items[2].answer}</p>
+      </article>
+      <article class="faq-item">
+        <h3 data-i18n="faq.items.3.question">{copy.faq.items[3].question}</h3>
+        <p data-i18n="faq.items.3.answer">{copy.faq.items[3].answer}</p>
+      </article>
+      <article class="faq-item">
+        <h3 data-i18n="faq.items.4.question">{copy.faq.items[4].question}</h3>
+        <p data-i18n-html="faq.items.4.answerHtml" set:html={copy.faq.items[4].answerHtml ?? copy.faq.items[4].answer} />
+      </article>
+    </div>
+  </div>
+</section>

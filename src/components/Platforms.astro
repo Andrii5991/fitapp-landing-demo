@@ -1,0 +1,33 @@
+---
+import { copyByLocale, type Locale } from '../lib/i18n';
+
+interface Props {
+  locale?: Locale;
+}
+
+const { locale = 'en' } = Astro.props;
+const copy = copyByLocale[locale];
+---
+
+<section class="section section-muted" id="platforms">
+  <div class="container">
+    <div class="section-head">
+      <h2 data-i18n="platforms.title">{copy.platforms.title}</h2>
+      <p data-i18n="platforms.sub">{copy.platforms.sub}</p>
+    </div>
+    <div class="platforms">
+      <div class="platform-card">
+        <h3 data-i18n="platforms.cards.0.title">{copy.platforms.cards[0].title}</h3>
+        <p data-i18n="platforms.cards.0.description">{copy.platforms.cards[0].description}</p>
+      </div>
+      <div class="platform-card">
+        <h3 data-i18n="platforms.cards.1.title">{copy.platforms.cards[1].title}</h3>
+        <p data-i18n="platforms.cards.1.description">{copy.platforms.cards[1].description}</p>
+      </div>
+      <div class="platform-card">
+        <h3 data-i18n="platforms.cards.2.title">{copy.platforms.cards[2].title}</h3>
+        <p data-i18n="platforms.cards.2.description">{copy.platforms.cards[2].description}</p>
+      </div>
+    </div>
+  </div>
+</section>

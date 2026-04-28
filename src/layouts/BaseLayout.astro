@@ -1,0 +1,62 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+  jsonLd?: Record<string, unknown> | Array<Record<string, unknown>>;
+  lang?: string;
+  alternates?: Array<{ hreflang: string; href: string }>;
+  /** Serialized copyByLocale for client-side language switching without full page reload */
+  clientI18nJson?: string;
+}
+
+const {
+  title,
+  description = 'Log yoga, Pilates, stretching, strength training, or cardio. Track your activity, enhance your body, and see the result.',
+  jsonLd,
+  lang = 'en',
+  alternates = [],
+  clientI18nJson,
+} = Astro.props;
+
+const canonicalHref = Astro.site
+  ? new URL(Astro.url.pathname, Astro.site).href
+  : Astro.url.href;
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#0e1011" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalHref} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    {alternates.map((alt) => <link rel="alternate" hreflang={alt.hreflang} href={alt.href} />)}
+    {
+      Array.isArray(jsonLd)
+        ? jsonLd.map((entry) => (
+            <script type="application/ld+json" set:html={JSON.stringify(entry)} />
+          ))
+        : jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    }
+  </head>
+  <body>
+    <slot />
+    {
+      clientI18nJson && (
+        <>
+          <script type="application/json" id="pushlab-i18n-data" set:html={clientI18nJson} />
+          <script src="/client-i18n.js" defer />
+        </>
+      )
+    }
+  </body>
+</html>

@@ -1,0 +1,186 @@
+---
+import { SUPPORTED_LOCALES, copyByLocale, type Locale } from '../lib/i18n';
+
+interface Props {
+  locale?: Locale;
+  basePath?: string;
+}
+
+const { locale = 'en', basePath = '' } = Astro.props;
+const copy = copyByLocale[locale];
+const locales: Locale[] = SUPPORTED_LOCALES;
+const localeLabel: Record<Locale, string> = {
+  en: 'English',
+  es: 'Espanol',
+  'pt-br': 'Portugues (BR)',
+  de: 'Deutsch',
+  fr: 'Francais',
+};
+---
+
+<header class="site-header">
+  <div class="container">
+    <div class="header-bar">
+      <div class="header-inner">
+        <a class="logo" href={basePath || '/en/'} data-locale-home>Push<span>Lab</span></a>
+
+        <nav class="nav-desktop" aria-label="Primary">
+          <a href={`${basePath}#product`} data-locale-section="product" data-i18n="nav.product">{copy.nav.product}</a>
+          <a href={`${basePath}#progress`} data-locale-section="progress" data-i18n="nav.progress">{copy.nav.progress}</a>
+          <a href={`${basePath}#platforms`} data-locale-section="platforms" data-i18n="nav.platforms">{copy.nav.platforms}</a>
+        </nav>
+
+        <div class="header-actions">
+          <div class="language-switcher hidden-mobile" aria-label={copy.nav.languageLabel} data-i18n-aria-label="nav.languageLabel">
+            <details class="language-dropdown">
+              <summary class="language-summary">{localeLabel[locale]}</summary>
+              <ul class="language-menu" role="list">
+                {
+                  locales.map((lang) => (
+                    <li>
+                      <a
+                        class:list={['language-option', lang === locale && 'is-active']}
+                        href={`/${lang}/`}
+                        data-switch-locale={lang}
+                      >
+                        {localeLabel[lang]}
+                      </a>
+                    </li>
+                  ))
+                }
+              </ul>
+            </details>
+          </div>
+          <button
+            type="button"
+            class="btn btn-ghost hidden-mobile"
+            data-get-app-open
+            data-i18n="nav.getApp"
+          >
+            {copy.nav.getApp}
+          </button>
+          <button
+            type="button"
+            class="nav-toggle"
+            id="nav-toggle"
+            aria-label={copy.nav.openMenu}
+            aria-expanded="false"
+            aria-controls="nav-mobile"
+            data-open-label={copy.nav.openMenu}
+            data-close-label={copy.nav.closeMenu}
+          >
+            <svg class="icon-menu" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+            <svg class="icon-close" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M18 6L6 18M6 6l12 12"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <nav class="nav-mobile" id="nav-mobile" aria-label="Mobile">
+      <div class="nav-mobile-scroll">
+      <a href={`${basePath}#product`} data-locale-section="product" data-i18n="nav.product">{copy.nav.product}</a>
+      <a href={`${basePath}#progress`} data-locale-section="progress" data-i18n="nav.progress">{copy.nav.progress}</a>
+      <a href={`${basePath}#platforms`} data-locale-section="platforms" data-i18n="nav.platforms">{copy.nav.platforms}</a>
+      <button type="button" class="nav-mobile-link" data-get-app-open data-i18n="nav.getApp">{copy.nav.getApp}</button>
+      </div>
+      <div class="nav-mobile-lang">
+      <div class="language-switcher" data-i18n-aria-label="nav.languageLabel">
+        <details class="language-dropdown">
+          <summary class="language-summary">{localeLabel[locale]}</summary>
+          <ul class="language-menu" role="list">
+            {
+              locales.map((lang) => (
+                <li>
+                  <a
+                    class:list={['language-option', lang === locale && 'is-active']}
+                    href={`/${lang}/`}
+                    data-switch-locale={lang}
+                  >
+                    {localeLabel[lang]}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </details>
+      </div>
+      </div>
+    </nav>
+  </div>
+
+  <dialog class="get-app-dialog" id="get-app-dialog" aria-labelledby="get-app-dialog-title">
+    <div class="get-app-dialog-inner">
+      <button type="button" class="get-app-dialog-close" data-get-app-close data-i18n="nav.getAppCloseLabel">
+        {copy.nav.getAppCloseLabel}
+      </button>
+      <h2 id="get-app-dialog-title" data-i18n="nav.getAppDialogTitle">{copy.nav.getAppDialogTitle}</h2>
+      <p data-i18n="nav.getAppDialogSub">{copy.nav.getAppDialogSub}</p>
+      <div class="get-app-dialog-links">
+        <a class="btn btn-primary" href="/#" data-i18n="nav.getAppStoreLabel">{copy.nav.getAppStoreLabel}</a>
+        <a class="btn btn-ghost" href="/#" data-i18n="nav.getAppPlayLabel">{copy.nav.getAppPlayLabel}</a>
+      </div>
+      <figure class="get-app-dialog-qr">
+        <img src="/get-app-qr-placeholder.svg" width="200" height="200" alt="" decoding="async" />
+        <figcaption data-i18n="nav.getAppQrHint">{copy.nav.getAppQrHint}</figcaption>
+      </figure>
+    </div>
+  </dialog>
+</header>
+
+<script>
+  const toggle = document.getElementById('nav-toggle');
+  const mobile = document.getElementById('nav-mobile');
+  const getAppDialog = document.getElementById('get-app-dialog');
+
+  function setOpen(open) {
+    if (!toggle || !mobile) return;
+    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    const openLabel = toggle.getAttribute('data-open-label') ?? 'Open menu';
+    const closeLabel = toggle.getAttribute('data-close-label') ?? 'Close menu';
+    toggle.setAttribute('aria-label', open ? closeLabel : openLabel);
+    mobile.classList.toggle('is-open', open);
+    document.body.style.overflow = open ? 'hidden' : '';
+  }
+
+  toggle?.addEventListener('click', () => {
+    const open = toggle.getAttribute('aria-expanded') === 'true';
+    setOpen(!open);
+  });
+
+  mobile?.querySelectorAll('a').forEach((link) => {
+    link.addEventListener('click', () => setOpen(false));
+  });
+
+  document.querySelectorAll('[data-get-app-open]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      setOpen(false);
+      getAppDialog?.showModal();
+    });
+  });
+
+  getAppDialog?.querySelector('[data-get-app-close]')?.addEventListener('click', () => {
+    getAppDialog.close();
+  });
+
+  getAppDialog?.addEventListener('click', (e) => {
+    if (e.target === getAppDialog) getAppDialog.close();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && toggle?.getAttribute('aria-expanded') === 'true') {
+      setOpen(false);
+    }
+  });
+
+  window.addEventListener('resize', () => {
+    if (window.matchMedia('(min-width: 960px)').matches) {
+      setOpen(false);
+    }
+  });
+</script>
