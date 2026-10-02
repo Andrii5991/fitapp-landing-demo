@@ -1,5 +1,7 @@
 User-agent: *
 Allow: /
+Disallow: /keystatic
+Disallow: /api/keystatic
 
 # AI search and assistant crawlers
 User-agent: GPTBot
@@ -22,3 +24,5 @@ Allow: /
 
 User-agent: Bingbot
 Allow: /
+
+Sitemap: https://pushlab.app/sitemap-index.xml

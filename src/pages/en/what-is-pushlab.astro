@@ -1,0 +1,122 @@
+---
+import ArticleLayout from '../../layouts/ArticleLayout.astro';
+
+const title = 'What is PushLab? Workout Tracking App Explained';
+const heading = 'What is PushLab?';
+const description =
+  'PushLab is a workout tracking app for logging strength, cardio, yoga, Pilates, and stretching—so your sessions, history, and progress live in one place.';
+const publishedAt = new Date('2026-07-22T00:00:00Z');
+
+const faq = [
+  {
+    question: 'What is PushLab in one sentence?',
+    answer:
+      'PushLab is a workout tracking app for logging sessions and seeing progress across strength, cardio, yoga, Pilates, and stretching.',
+  },
+  {
+    question: 'Is PushLab free?',
+    answer: 'Yes—the current release is free, with no active subscriptions in this version.',
+  },
+  {
+    question: 'Does PushLab work offline?',
+    answer: 'Yes. You can log workouts offline and sync when your device reconnects.',
+  },
+  {
+    question: 'Which platforms will PushLab support?',
+    answer:
+      'iOS and Android are the primary targets. Store links will be published on pushlab.app when the app is released.',
+  },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: heading,
+    description,
+    datePublished: '2026-07-22',
+    dateModified: '2026-07-22',
+    inLanguage: 'en',
+    author: { '@type': 'Organization', name: 'DOARBO' },
+    publisher: { '@id': 'https://pushlab.app/#organization' },
+    mainEntityOfPage: 'https://pushlab.app/en/what-is-pushlab/',
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map((item) => ({
+      '@type': 'Question',
+      name: item.question,
+      acceptedAnswer: { '@type': 'Answer', text: item.answer },
+    })),
+  },
+];
+---
+
+<ArticleLayout
+  title={title}
+  heading={heading}
+  description={description}
+  publishedAt={publishedAt}
+  jsonLd={jsonLd}
+  faq={faq}
+  typeLabel="Overview"
+  typeHref="/en/guides/"
+  related={[
+    { href: '/en/guides/how-to-log-workouts/', kicker: 'Guide', title: 'How to log workouts' },
+    { href: '/en/guides/track-workout-progress/', kicker: 'Guide', title: 'Track workout progress' },
+    { href: '/en/compare/workout-log-vs-notes/', kicker: 'Compare', title: 'PushLab vs notes' },
+  ]}
+>
+  <p class="guide-lead">
+    <strong>PushLab</strong> is a workout tracking app that helps you log training sessions, organize
+    programs with templates, and review progress over time. You can track strength training, cardio, yoga,
+    stretching, and Pilates in one place—online or offline—then sync when you reconnect.
+  </p>
+
+  <h2>Who it is for</h2>
+  <p>
+    PushLab is for people who want a simple planner and tracker instead of scattered notes or spreadsheets.
+    Ideal if you train in more than one style, want calendar-style history, and care about volume,
+    consistency, and personal bests—not social feeds.
+  </p>
+  <p><strong>PushLab is not</strong> a meal planner, calorie counter, or social network.</p>
+
+  <h2>What you can do</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Capability</th>
+        <th>What it means</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Log any session</td><td>Exercises, sets, reps, load, rest, notes</td></tr>
+      <tr><td>Multi-style training</td><td>Strength, cardio, yoga, Pilates, stretching</td></tr>
+      <tr><td>Templates &amp; programs</td><td>Reuse structure so sessions start faster</td></tr>
+      <tr><td>Progress views</td><td>Weekly volume, consistency, PR trends, history</td></tr>
+      <tr><td>Offline logging</td><td>Record in the gym; sync when back online</td></tr>
+      <tr><td>Exercise library</td><td>Pick movements without rebuilding lists from scratch</td></tr>
+    </tbody>
+  </table>
+
+  <h2>How PushLab works</h2>
+  <ol>
+    <li><strong>Plan</strong> — Start from a template, program, or blank session.</li>
+    <li><strong>Log</strong> — Capture sets in a few taps; works offline.</li>
+    <li><strong>Review</strong> — Use history, volume, and PRs to decide what to do next week.</li>
+  </ol>
+
+  <h2>Pricing (current)</h2>
+  <p>
+    The current release is <strong>free</strong>. There are no active in-app subscriptions in this version
+    (Fit Pro billing disabled). Future paid plans may appear later.
+  </p>
+
+  <h2>Privacy snapshot</h2>
+  <ul>
+    <li>Workout data can sync to DOARBO servers when you are signed in.</li>
+    <li>PushLab does <strong>not</strong> read from or write to Apple Health / HealthKit.</li>
+    <li>Account deletion is available in-app — see <a href="/fitness-tracker/support">Support</a>.</li>
+  </ul>
+</ArticleLayout>

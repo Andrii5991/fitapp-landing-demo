@@ -9,6 +9,9 @@ interface Props {
 const { locale = 'en', basePath = '' } = Astro.props;
 const copy = copyByLocale[locale];
 const locales: Locale[] = SUPPORTED_LOCALES;
+const path = Astro.url.pathname;
+const guidesActive = /\/(guides|what-is-pushlab|compare|changelog)(\/|$)/.test(path);
+const blogActive = /\/blog(\/|$)/.test(path);
 const localeLabel: Record<Locale, string> = {
   en: 'English',
   es: 'Espanol',
@@ -26,8 +29,9 @@ const localeLabel: Record<Locale, string> = {
 
         <nav class="nav-desktop" aria-label="Primary">
           <a href={`${basePath}#product`} data-locale-section="product" data-i18n="nav.product">{copy.nav.product}</a>
-          <a href={`${basePath}#progress`} data-locale-section="progress" data-i18n="nav.progress">{copy.nav.progress}</a>
           <a href={`${basePath}#platforms`} data-locale-section="platforms" data-i18n="nav.platforms">{copy.nav.platforms}</a>
+          <a class:list={['nav-guides', guidesActive && 'is-active']} href="/en/guides/" data-i18n="nav.guides">{copy.nav.guides}</a>
+          <a class:list={['nav-guides', blogActive && 'is-active']} href="/en/blog/" data-i18n="nav.blog">{copy.nav.blog}</a>
         </nav>
 
         <div class="header-actions">
@@ -85,8 +89,9 @@ const localeLabel: Record<Locale, string> = {
     <nav class="nav-mobile" id="nav-mobile" aria-label="Mobile">
       <div class="nav-mobile-scroll">
       <a href={`${basePath}#product`} data-locale-section="product" data-i18n="nav.product">{copy.nav.product}</a>
-      <a href={`${basePath}#progress`} data-locale-section="progress" data-i18n="nav.progress">{copy.nav.progress}</a>
       <a href={`${basePath}#platforms`} data-locale-section="platforms" data-i18n="nav.platforms">{copy.nav.platforms}</a>
+      <a class:list={['nav-guides', guidesActive && 'is-active']} href="/en/guides/" data-i18n="nav.guides">{copy.nav.guides}</a>
+      <a class:list={['nav-guides', blogActive && 'is-active']} href="/en/blog/" data-i18n="nav.blog">{copy.nav.blog}</a>
       <button type="button" class="nav-mobile-link" data-get-app-open data-i18n="nav.getApp">{copy.nav.getApp}</button>
       </div>
       <div class="nav-mobile-lang">
@@ -122,11 +127,17 @@ const localeLabel: Record<Locale, string> = {
       <h2 id="get-app-dialog-title" data-i18n="nav.getAppDialogTitle">{copy.nav.getAppDialogTitle}</h2>
       <p data-i18n="nav.getAppDialogSub">{copy.nav.getAppDialogSub}</p>
       <div class="get-app-dialog-links">
-        <a class="btn btn-primary" href="/#" data-i18n="nav.getAppStoreLabel">{copy.nav.getAppStoreLabel}</a>
-        <a class="btn btn-ghost" href="/#" data-i18n="nav.getAppPlayLabel">{copy.nav.getAppPlayLabel}</a>
+        <a class="btn btn-primary" href="/fitness-tracker/support" data-i18n="nav.getAppStoreLabel">{copy.nav.getAppStoreLabel}</a>
+        <a class="btn btn-ghost" href="/fitness-tracker/support" data-i18n="nav.getAppPlayLabel">{copy.nav.getAppPlayLabel}</a>
       </div>
       <figure class="get-app-dialog-qr">
-        <img src="/get-app-qr-placeholder.svg" width="200" height="200" alt="" decoding="async" />
+        <img
+          src="/get-app-qr-placeholder.svg"
+          width="200"
+          height="200"
+          alt="QR code placeholder for downloading PushLab"
+          decoding="async"
+        />
         <figcaption data-i18n="nav.getAppQrHint">{copy.nav.getAppQrHint}</figcaption>
       </figure>
     </div>
@@ -179,7 +190,7 @@ const localeLabel: Record<Locale, string> = {
   });
 
   window.addEventListener('resize', () => {
-    if (window.matchMedia('(min-width: 960px)').matches) {
+    if (window.matchMedia('(min-width: 720px)').matches) {
       setOpen(false);
     }
   });

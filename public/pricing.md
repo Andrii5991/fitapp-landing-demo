@@ -1,21 +1,14 @@
 # Pricing - PushLab
 
-## Free
-- Price: $0/month
-- Limits: Basic workout logging, up to 3 saved templates
-- Features: Session logging, progress history, offline logging, basic trends
+## Current release
+- Price: Free
+- Limits: Full workout logging for the current App Store release
+- Features: Session logging, templates, progress history, offline logging, sync when online
+- Notes: There are no active in-app subscriptions in this version. Fit Pro billing is disabled.
 
-## Pro
-- Price: $7.99/month or $69.99/year
-- Limits: Unlimited templates and full history
-- Features: Advanced trend analytics, goal tracking, personal records, cross-device sync
-
-## Team
-- Price: Custom
-- Limits: Multi-coach and multi-athlete workspace
-- Features: Shared programs, team dashboards, priority support
+## Future plans (not live)
+Paid tiers may be introduced later. Until then, do not treat Pro/Team prices as available offers.
 
 ## Notes
-- Prices shown in USD.
-- Regional taxes may apply.
-- Annual plans reduce effective monthly cost.
+- Always confirm live pricing on https://pushlab.app and in the store listing.
+- Regional taxes may apply if paid plans launch.

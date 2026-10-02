@@ -1,0 +1,97 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SkipLink from '../../components/SkipLink.astro';
+import SupportSiteHeader from '../../components/SupportSiteHeader.astro';
+import SupportLegalFooter from '../../components/SupportLegalFooter.astro';
+import { APP_SUPPORT } from '../../lib/app-support';
+
+const title = `Privacy Policy — ${APP_SUPPORT.appName} | ${APP_SUPPORT.company}`;
+const description = `Privacy policy for ${APP_SUPPORT.appName} by ${APP_SUPPORT.company}: account data, workout logs, and your rights.`;
+const lastUpdated = '2026-06-07';
+---
+
+<BaseLayout title={title} description={description} lang="en">
+  <SkipLink />
+  <SupportSiteHeader lang="en" />
+
+  <main id="main" class="support-page legal-page">
+    <article class="container legal-article">
+      <header class="legal-header">
+        <p class="support-eyebrow">{APP_SUPPORT.appName} · {APP_SUPPORT.company}</p>
+        <h1>Privacy Policy</h1>
+        <p class="legal-updated">Last updated: {lastUpdated}</p>
+      </header>
+
+      <p>
+        This Privacy Policy describes how {APP_SUPPORT.company} ("we", "us") collects, uses, and protects
+        information when you use the <strong>{APP_SUPPORT.appName}</strong> mobile application (Bundle ID:
+        <code>{APP_SUPPORT.bundleId}</code>).
+      </p>
+
+      <h2>Information we collect</h2>
+      <ul>
+        <li><strong>Account data:</strong> email address and password (stored securely) when you create an account.</li>
+        <li><strong>Profile data:</strong> display name, unit preferences, and training preferences you set in the app.</li>
+        <li>
+          <strong>Workout data:</strong> exercises, sets, reps, weight, RPE/RIR, plans, templates, and progress
+          statistics you log in the app.
+        </li>
+        <li>
+          <strong>Profile photo (optional):</strong> if you add a photo, it may be stored locally on your device; we do
+          not require a profile photo to use the app.
+        </li>
+      </ul>
+
+      <h2>How we use your information</h2>
+      <p>
+        We use your information to provide account sign-in, sync your workout data across sessions, display progress
+        and stats, and respond to support requests. We do not sell your personal data.
+      </p>
+
+      <h2>Apple Health / HealthKit</h2>
+      <p>
+        <strong>{APP_SUPPORT.appName} does not integrate with Apple Health or HealthKit.</strong> All workout and
+        health-related data in the app is entered manually by you. We do not read from or write to Apple Health.
+      </p>
+
+      <h2>Data storage and security</h2>
+      <p>
+        When you are signed in, workout and account data syncs to our servers over encrypted connections (HTTPS/TLS).
+        We apply reasonable technical and organizational measures to protect your data.
+      </p>
+
+      <h2>Data retention and deletion</h2>
+      <p>
+        You can delete your account and associated data at any time in the app:
+        <strong>Profile → Settings → Account & Security → Delete account</strong>. Deletion is permanent and removes
+        your account and synced workout data from our servers.
+      </p>
+      <p>
+        You may also contact us at
+        <a href={`mailto:${APP_SUPPORT.supportEmail}`}>{APP_SUPPORT.supportEmail}</a> for account or privacy
+        questions.
+      </p>
+
+      <h2>Children</h2>
+      <p>
+        {APP_SUPPORT.appName} is not directed at children under 13. We do not knowingly collect personal information
+        from children under 13.
+      </p>
+
+      <h2>Changes to this policy</h2>
+      <p>
+        We may update this Privacy Policy from time to time. We will post the revised policy on this page and update
+        the "Last updated" date above.
+      </p>
+
+      <h2>Contact</h2>
+      <p>
+        {APP_SUPPORT.company}<br />
+        Email: <a href={`mailto:${APP_SUPPORT.supportEmail}`}>{APP_SUPPORT.supportEmail}</a><br />
+        Support: <a href={APP_SUPPORT.supportPath}>{APP_SUPPORT.supportPath}</a>
+      </p>
+    </article>
+  </main>
+
+  <SupportLegalFooter lang="en" />
+</BaseLayout>

@@ -1,0 +1,27 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SkipLink from '../components/SkipLink.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+---
+
+<BaseLayout
+  title="Page not found — PushLab"
+  description="The page you requested is not available. Return to PushLab home."
+  noindex={true}
+>
+  <SkipLink />
+  <SiteHeader locale="en" basePath="/en/" />
+  <main id="main" class="error-page">
+    <div class="container error-page-inner">
+      <p class="eyebrow">404</p>
+      <h1>This page is not on the map</h1>
+      <p>The URL is missing or moved. Go home, open a guide, or reach support.</p>
+      <div class="error-page-actions">
+        <a class="btn btn-primary" href="/en/">Back to PushLab</a>
+        <a class="btn btn-ghost" href="/en/guides/">Read guides</a>
+      </div>
+    </div>
+  </main>
+  <SiteFooter locale="en" basePath="/en/" />
+</BaseLayout>

@@ -1,0 +1,80 @@
+---
+import ArticleLayout from '../../../layouts/ArticleLayout.astro';
+import { getEntry } from 'astro:content';
+import {
+  articleHeading,
+  articleSlug,
+  articleUrl,
+  getPublishedArticles,
+  getRelatedArticles,
+  sectionForType,
+  SECTION_LABEL,
+  TYPE_BY_SECTION,
+  type ArticleSection,
+} from '../../../lib/articles';
+import { articleJsonLd } from '../../../lib/article-schema';
+import { SUPPORTED_LOCALES } from '../../../lib/i18n';
+
+export async function getStaticPaths() {
+  const articles = await getPublishedArticles();
+  return articles.flatMap((entry) => {
+    const locale = entry.data.lang;
+    if (!SUPPORTED_LOCALES.includes(locale)) return [];
+    const section = sectionForType(entry.data.type);
+    return [
+      {
+        params: { locale, section, slug: articleSlug(entry) },
+        props: { entry },
+      },
+    ];
+  });
+}
+
+const { entry } = Astro.props;
+const section = Astro.params.section as ArticleSection;
+if (TYPE_BY_SECTION[section] !== entry.data.type) {
+  throw new Error(`Section mismatch for ${entry.slug}`);
+}
+
+const authorEntry = await getEntry('authors', entry.data.author);
+if (!authorEntry) {
+  throw new Error(`Missing author ${entry.data.author}`);
+}
+
+const related = await getRelatedArticles(entry, 3);
+const { Content } = await entry.render();
+const siteOrigin = Astro.site?.origin ?? 'https://pushlab.app';
+const ogImage = entry.data.ogImage ?? '/og-image.png';
+const jsonLd = articleJsonLd(
+  entry,
+  { id: authorEntry.id, name: authorEntry.data.name, role: authorEntry.data.role, bio: authorEntry.data.bio },
+  new URL(ogImage, `${siteOrigin}/`).href
+);
+---
+
+<ArticleLayout
+  title={entry.data.title}
+  heading={articleHeading(entry)}
+  description={entry.data.description}
+  publishedAt={entry.data.publishedAt}
+  updatedAt={entry.data.updatedAt}
+  jsonLd={jsonLd}
+  faq={entry.data.faq}
+  typeLabel={SECTION_LABEL[section]}
+  typeHref={`/${entry.data.lang}/${section}/`}
+  author={{
+    id: authorEntry.id,
+    name: authorEntry.data.name,
+    role: authorEntry.data.role,
+    bio: authorEntry.data.bio,
+  }}
+  related={related.map((item) => ({
+    href: articleUrl(item),
+    kicker: SECTION_LABEL[sectionForType(item.data.type)],
+    title: articleHeading(item),
+  }))}
+  ogImage={ogImage}
+  rss={entry.data.type === 'blog'}
+>
+  <Content />
+</ArticleLayout>

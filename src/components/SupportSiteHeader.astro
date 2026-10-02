@@ -1,0 +1,33 @@
+---
+import { APP_SUPPORT } from '../lib/app-support';
+import type { SupportLang } from '../lib/support-copy';
+import { supportCopy } from '../lib/support-copy';
+
+interface Props {
+  lang?: SupportLang;
+}
+
+const { lang = 'en' } = Astro.props;
+const copy = supportCopy[lang];
+const otherLang: SupportLang = lang === 'en' ? 'de' : 'en';
+const langHref = `${APP_SUPPORT.supportPath}?lang=${otherLang}`;
+---
+
+<header class="support-header">
+  <div class="container support-header-inner">
+    <a class="support-logo" href={APP_SUPPORT.supportPath}>
+      <span class="support-logo-mark" aria-hidden="true">PL</span>
+      <span class="support-logo-text">
+        <strong>{APP_SUPPORT.appName}</strong>
+        <small>{APP_SUPPORT.company}</small>
+      </span>
+    </a>
+    <nav class="support-header-nav" aria-label="Support">
+      <a href="#contact">{copy.contact.title}</a>
+      <a href="#faq">{copy.faq.title}</a>
+      <a class="support-lang-switch" href={langHref} hreflang={otherLang}>
+        {copy.langSwitch}
+      </a>
+    </nav>
+  </div>
+</header>

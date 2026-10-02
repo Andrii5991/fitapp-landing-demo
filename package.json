@@ -8,12 +8,23 @@
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
+    "verify": "node scripts/verify-build.mjs",
     "astro": "astro",
     "process-screenshots": "node scripts/make-transparent-png.mjs"
   },
   "dependencies": {
+    "@astrojs/markdoc": "^0.11.5",
+    "@astrojs/react": "^3.6.3",
+    "@astrojs/rss": "^4.0.11",
     "@astrojs/sitemap": "^3.2.1",
-    "astro": "^4.16.0"
+    "@astrojs/vercel": "^7.8.2",
+    "@keystatic/astro": "^5.0.6",
+    "@keystatic/core": "^0.6.9",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "astro": "^4.16.0",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0"
   },
   "devDependencies": {
     "promptfoo": "^0.120.19",

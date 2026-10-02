@@ -1,5 +1,6 @@
 ---
-const target = '/en/';
+const targetPath = '/en/';
+const target = Astro.site ? new URL(targetPath, Astro.site).href : targetPath;
 ---
 
 <!doctype html>
@@ -7,11 +8,15 @@ const target = '/en/';
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta http-equiv="refresh" content={`0; url=${target}`} />
+    <meta name="robots" content="noindex, follow" />
+    <meta http-equiv="refresh" content={`0; url=${targetPath}`} />
     <link rel="canonical" href={target} />
-    <title>Redirecting…</title>
+    <title>Redirecting to PushLab…</title>
+    <script is:inline define:vars={{ targetPath }}>
+      location.replace(targetPath);
+    </script>
   </head>
   <body>
-    <p>Redirecting to <a href={target}>{target}</a>…</p>
+    <p>Redirecting to <a href={targetPath}>{targetPath}</a>…</p>
   </body>
 </html>

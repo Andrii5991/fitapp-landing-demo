@@ -1,0 +1,44 @@
+---
+import ArticleLayout from '../../layouts/ArticleLayout.astro';
+
+const title = 'PushLab Changelog — What’s New';
+const heading = 'Changelog';
+const description = 'Product updates, improvements, and fixes in PushLab.';
+const publishedAt = new Date('2026-07-22T00:00:00Z');
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  name: title,
+  description,
+  dateModified: '2026-07-22',
+  url: 'https://pushlab.app/en/changelog/',
+};
+---
+
+<ArticleLayout
+  title={title}
+  heading={heading}
+  description={description}
+  publishedAt={publishedAt}
+  jsonLd={jsonLd}
+  typeLabel="Updates"
+  typeHref="/en/blog/"
+>
+  <p class="guide-lead">
+    What’s new in PushLab—product updates, fixes, and improvements. Newest first.
+  </p>
+
+  <h2>2026-07-22 — Website visibility update</h2>
+  <ul>
+    <li>Published SEO/GEO foundations: meta, Open Graph, sitemap declaration, and expanded llms.txt</li>
+    <li>Added guide pages: what is PushLab, how to log workouts, progress tracking, and comparison</li>
+    <li>Aligned pricing messaging to the current free release</li>
+  </ul>
+
+  <h2>App releases</h2>
+  <p>
+    Store release notes will appear here when PushLab ships on the App Store and Google Play. Until then,
+    treat store buttons on the marketing site as pre-release placeholders.
+  </p>
+</ArticleLayout>

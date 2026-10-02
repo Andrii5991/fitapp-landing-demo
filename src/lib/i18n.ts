@@ -17,6 +17,8 @@ type LocaleCopy = {
     product: string;
     progress: string;
     platforms: string;
+    guides: string;
+    blog: string;
     getApp: string;
     getAppDialogTitle: string;
     getAppDialogSub: string;
@@ -88,11 +90,15 @@ type LocaleCopy = {
     features: string;
     platforms: string;
     changelog: string;
+    guides: string;
+    blog: string;
+    compare: string;
     about: string;
     careers: string;
     contact: string;
     privacy: string;
     terms: string;
+    appSupport: string;
     legalLine: string;
   };
 };
@@ -108,6 +114,8 @@ export const copyByLocale: Record<Locale, LocaleCopy> = {
       product: 'Product',
       progress: 'Progress',
       platforms: 'Platforms',
+      guides: 'Guides',
+      blog: 'Blog',
       getApp: 'Get the app',
       getAppDialogTitle: 'Get PushLab',
       getAppDialogSub: 'Store links go live at release. For now, use the placeholders below.',
@@ -126,7 +134,7 @@ export const copyByLocale: Record<Locale, LocaleCopy> = {
       sub: 'You can log every exercise you want—yoga, Pilates, stretching, strength training, cardio. Track activity, improve your body, and see real results.',
       ctaPrimary: 'Get PushLab',
       ctaSecondary: 'Explore system',
-      trust: 'Trusted by 40k+ strength athletes',
+      trust: 'Free workout tracking for every training style',
       chips: ['Offline logging', 'Live PR detection', 'Programs + templates'],
       figcaption: 'One app for every way you like to move.',
       weeklyVolume: 'Weekly volume',
@@ -259,12 +267,16 @@ export const copyByLocale: Record<Locale, LocaleCopy> = {
       features: 'Features',
       platforms: 'Platforms',
       changelog: 'Changelog',
+      guides: 'Guides',
+      blog: 'Blog',
+      compare: 'Compare',
       about: 'About',
       careers: 'Careers',
       contact: 'Contact',
       privacy: 'Privacy',
       terms: 'Terms',
-      legalLine: 'Replace with your legal entity.',
+      appSupport: 'PushLab Support',
+      legalLine: 'A product by DOARBO.',
     },
   },
   es: {
@@ -277,6 +289,8 @@ export const copyByLocale: Record<Locale, LocaleCopy> = {
       product: 'Producto',
       progress: 'Progreso',
       platforms: 'Plataformas',
+      guides: 'Guias',
+      blog: 'Blog',
       getApp: 'Obtener la app',
       getAppDialogTitle: 'Obtener PushLab',
       getAppDialogSub: 'Los enlaces de las tiendas estarán disponibles al lanzamiento. Por ahora, usa los enlaces de ejemplo.',
@@ -295,7 +309,7 @@ export const copyByLocale: Record<Locale, LocaleCopy> = {
       sub: 'Puedes registrar cada ejercicio: yoga, pilates, estiramientos, fuerza y cardio. Registra tu actividad, mejora tu cuerpo y ve resultados reales.',
       ctaPrimary: 'Descargar PushLab',
       ctaSecondary: 'Ver sistema',
-      trust: 'Con la confianza de mas de 40k atletas de fuerza',
+      trust: 'Registro de entrenamientos gratis para cualquier estilo',
       chips: ['Registro sin conexion', 'Deteccion de PR en vivo', 'Programas + plantillas'],
       figcaption: 'Una app para cada forma en que te gusta moverte.',
       weeklyVolume: 'Volumen semanal',
@@ -428,12 +442,16 @@ export const copyByLocale: Record<Locale, LocaleCopy> = {
       features: 'Funciones',
       platforms: 'Plataformas',
       changelog: 'Novedades',
+      guides: 'Guias',
+      blog: 'Blog',
+      compare: 'Comparar',
       about: 'Acerca de',
       careers: 'Carreras',
       contact: 'Contacto',
       privacy: 'Privacidad',
       terms: 'Terminos',
-      legalLine: 'Reemplaza por tu entidad legal.',
+      appSupport: 'Soporte PushLab',
+      legalLine: 'Un producto de DOARBO.',
     },
   },
   'pt-br': {
@@ -446,6 +464,8 @@ export const copyByLocale: Record<Locale, LocaleCopy> = {
       product: 'Produto',
       progress: 'Progresso',
       platforms: 'Plataformas',
+      guides: 'Guias',
+      blog: 'Blog',
       getApp: 'Baixar app',
       getAppDialogTitle: 'Baixar PushLab',
       getAppDialogSub: 'Os links das lojas ficam ativos no lancamento. Por enquanto, use os links de exemplo.',
@@ -464,7 +484,7 @@ export const copyByLocale: Record<Locale, LocaleCopy> = {
       sub: 'Registre todos os exercicios: yoga, pilates, alongamento, forca e cardio. Acompanhe sua atividade, melhore seu corpo e veja resultados reais.',
       ctaPrimary: 'Baixar PushLab',
       ctaSecondary: 'Ver sistema',
-      trust: 'Confiado por mais de 40k atletas de forca',
+      trust: 'Registro de treinos gratuito para qualquer estilo',
       chips: ['Registro offline', 'Deteccao de PR ao vivo', 'Programas + modelos'],
       figcaption: 'Um app para cada forma de movimento.',
       weeklyVolume: 'Volume semanal',
@@ -597,12 +617,16 @@ export const copyByLocale: Record<Locale, LocaleCopy> = {
       features: 'Recursos',
       platforms: 'Plataformas',
       changelog: 'Novidades',
+      guides: 'Guias',
+      blog: 'Blog',
+      compare: 'Comparar',
       about: 'Sobre',
       careers: 'Carreiras',
       contact: 'Contato',
       privacy: 'Privacidade',
       terms: 'Termos',
-      legalLine: 'Substitua pela sua entidade legal.',
+      appSupport: 'Suporte PushLab',
+      legalLine: 'Um produto da DOARBO.',
     },
   },
   de: {
@@ -615,6 +639,8 @@ export const copyByLocale: Record<Locale, LocaleCopy> = {
       product: 'Produkt',
       progress: 'Fortschritt',
       platforms: 'Plattformen',
+      guides: 'Guides',
+      blog: 'Blog',
       getApp: 'App holen',
       getAppDialogTitle: 'PushLab holen',
       getAppDialogSub: 'Store-Links werden zum Release freigeschaltet. Bis dahin nutze die Platzhalter-Links.',
@@ -633,7 +659,7 @@ export const copyByLocale: Record<Locale, LocaleCopy> = {
       sub: 'Protokolliere jedes Training: Yoga, Pilates, Mobility, Kraft und Cardio. Erfasse deine Aktivitaet, verbessere deinen Koerper und sieh echte Ergebnisse.',
       ctaPrimary: 'PushLab holen',
       ctaSecondary: 'System ansehen',
-      trust: 'Vertrauen von ueber 40k Kraftsportlern',
+      trust: 'Kostenloses Workout-Tracking fuer jeden Trainingsstil',
       chips: ['Offline Protokoll', 'Live PR Erkennung', 'Programme + Vorlagen'],
       figcaption: 'Eine App fuer jede Art, wie du dich bewegst.',
       weeklyVolume: 'Wochenvolumen',
@@ -765,12 +791,16 @@ export const copyByLocale: Record<Locale, LocaleCopy> = {
       features: 'Funktionen',
       platforms: 'Plattformen',
       changelog: 'Changelog',
+      guides: 'Guides',
+      blog: 'Blog',
+      compare: 'Vergleich',
       about: 'Ueber uns',
       careers: 'Karriere',
       contact: 'Kontakt',
       privacy: 'Datenschutz',
       terms: 'Nutzungsbedingungen',
-      legalLine: 'Bitte durch deine rechtliche Einheit ersetzen.',
+      appSupport: 'PushLab Support',
+      legalLine: 'Ein Produkt von DOARBO.',
     },
   },
   fr: {
@@ -783,6 +813,8 @@ export const copyByLocale: Record<Locale, LocaleCopy> = {
       product: 'Produit',
       progress: 'Progression',
       platforms: 'Plateformes',
+      guides: 'Guides',
+      blog: 'Blog',
       getApp: 'Obtenir app',
       getAppDialogTitle: 'Obtenir PushLab',
       getAppDialogSub: 'Les liens des boutiques seront actifs au lancement. Pour l’instant, utilise les liens d’exemple.',
@@ -801,7 +833,7 @@ export const copyByLocale: Record<Locale, LocaleCopy> = {
       sub: 'Enregistre chaque seance: yoga, pilates, mobilite, force et cardio. Suis ton activite, ameliore ton corps et vois des resultats concrets.',
       ctaPrimary: 'Obtenir PushLab',
       ctaSecondary: 'Voir le systeme',
-      trust: 'Adopte par plus de 40k athletes de force',
+      trust: 'Suivi d entrainement gratuit pour tous les styles',
       chips: ['Journal hors ligne', 'Detection PR en direct', 'Programmes + modeles'],
       figcaption: 'Une seule app pour toutes tes facons de bouger.',
       weeklyVolume: 'Volume hebdomadaire',
@@ -934,16 +966,26 @@ export const copyByLocale: Record<Locale, LocaleCopy> = {
       features: 'Fonctionnalites',
       platforms: 'Plateformes',
       changelog: 'Changelog',
+      guides: 'Guides',
+      blog: 'Blog',
+      compare: 'Comparer',
       about: 'A propos',
       careers: 'Carrieres',
       contact: 'Contact',
       privacy: 'Confidentialite',
       terms: 'Conditions',
-      legalLine: 'Remplace par ton entite legale.',
+      appSupport: 'Support PushLab',
+      legalLine: 'Un produit de DOARBO.',
     },
   },
 };
 
 export function getLocaleFromParam(value: string | undefined): Locale {
   return SUPPORTED_LOCALES.includes(value as Locale) ? (value as Locale) : 'en';
+}
+
+/** BCP 47 codes for hreflang (URL slugs may differ, e.g. pt-br → pt-BR). */
+export function hreflangForLocale(locale: Locale): string {
+  if (locale === 'pt-br') return 'pt-BR';
+  return locale;
 }

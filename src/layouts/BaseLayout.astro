@@ -9,6 +9,10 @@ interface Props {
   alternates?: Array<{ hreflang: string; href: string }>;
   /** Serialized copyByLocale for client-side language switching without full page reload */
   clientI18nJson?: string;
+  ogImage?: string;
+  ogType?: string;
+  noindex?: boolean;
+  rssHref?: string;
 }
 
 const {
@@ -18,11 +22,19 @@ const {
   lang = 'en',
   alternates = [],
   clientI18nJson,
+  ogImage = '/og-image.png',
+  ogType = 'website',
+  noindex = false,
+  rssHref,
 } = Astro.props;
 
+const siteOrigin = Astro.site?.origin ?? 'https://pushlab.app';
 const canonicalHref = Astro.site
   ? new URL(Astro.url.pathname, Astro.site).href
   : Astro.url.href;
+const ogImageAbsolute = new URL(ogImage, `${siteOrigin}/`).href;
+const ogLocale = lang === 'pt-br' ? 'pt_BR' : lang.replace('-', '_');
+const robotsContent = noindex ? 'noindex, nofollow' : 'index, follow';
 ---
 
 <!doctype html>
@@ -31,14 +43,25 @@ const canonicalHref = Astro.site
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="theme-color" content="#0e1011" />
+    <meta name="robots" content={robotsContent} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalHref} />
+    <link rel="llms-txt" href="/llms.txt" />
+    {rssHref && <link rel="alternate" type="application/rss+xml" title="PushLab blog" href={rssHref} />}
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:url" content={canonicalHref} />
+    <meta property="og:image" content={ogImageAbsolute} />
+    <meta property="og:locale" content={ogLocale} />
+    <meta property="og:site_name" content="PushLab" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageAbsolute} />
     {alternates.map((alt) => <link rel="alternate" hreflang={alt.hreflang} href={alt.href} />)}
     {
       Array.isArray(jsonLd)

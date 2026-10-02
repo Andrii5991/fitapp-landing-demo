@@ -1,0 +1,23 @@
+---
+import { APP_SUPPORT } from '../lib/app-support';
+import type { SupportLang } from '../lib/support-copy';
+import { supportCopy } from '../lib/support-copy';
+
+interface Props {
+  lang?: SupportLang;
+}
+
+const { lang = 'en' } = Astro.props;
+const copy = supportCopy[lang];
+---
+
+<footer class="support-legal-footer">
+  <div class="container">
+    <nav class="support-legal-links" aria-label="Legal">
+      <a href={APP_SUPPORT.privacyPath}>{copy.legal.privacy}</a>
+      <a href={APP_SUPPORT.termsPath}>{copy.legal.terms}</a>
+      <a href={APP_SUPPORT.supportPath}>{APP_SUPPORT.appName} Support</a>
+    </nav>
+    <p class="support-legal-copy">{copy.legal.copyright}</p>
+  </div>
+</footer>

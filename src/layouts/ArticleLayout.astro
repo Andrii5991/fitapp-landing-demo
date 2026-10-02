@@ -1,0 +1,176 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import SkipLink from '../components/SkipLink.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import {
+  formatArticleDate,
+  isoDate,
+  readingMinutes,
+} from '../lib/articles';
+
+interface FaqItem {
+  question: string;
+  answer: string;
+}
+
+interface RelatedItem {
+  href: string;
+  kicker: string;
+  title: string;
+}
+
+interface AuthorBox {
+  id: string;
+  name: string;
+  role: string;
+  bio: string;
+}
+
+interface Props {
+  title: string;
+  heading: string;
+  description: string;
+  publishedAt: Date;
+  updatedAt?: Date;
+  jsonLd?: Record<string, unknown> | Array<Record<string, unknown>>;
+  faq?: FaqItem[];
+  typeLabel: string;
+  typeHref: string;
+  author?: AuthorBox;
+  related?: RelatedItem[];
+  ogImage?: string;
+  rss?: boolean;
+}
+
+const {
+  title,
+  heading,
+  description,
+  publishedAt,
+  updatedAt,
+  jsonLd,
+  faq = [],
+  typeLabel,
+  typeHref,
+  author,
+  related = [],
+  ogImage,
+  rss = false,
+} = Astro.props;
+
+const body = await Astro.slots.render('default');
+const minutes = readingMinutes(body);
+const publishedLabel = formatArticleDate(publishedAt);
+const publishedIso = isoDate(publishedAt);
+const updated = updatedAt && isoDate(updatedAt) !== publishedIso ? updatedAt : undefined;
+const updatedLabel = updated ? formatArticleDate(updated) : null;
+const siteOrigin = Astro.site?.origin ?? 'https://pushlab.app';
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  lang="en"
+  jsonLd={jsonLd}
+  ogType="article"
+  ogImage={ogImage}
+  rssHref={rss ? `${siteOrigin}/en/blog/rss.xml` : undefined}
+>
+  <SkipLink />
+  <SiteHeader locale="en" basePath="/en/" />
+
+  <main id="main" class="support-page legal-page guide-page">
+    <article class="container legal-article">
+      <header class="legal-header guide-header">
+        <nav class="guide-breadcrumb" aria-label="Breadcrumb">
+          <a href="/en/">PushLab</a>
+          <span aria-hidden="true">/</span>
+          <a href={typeHref}>{typeLabel}</a>
+          <span aria-hidden="true">/</span>
+          <span>{heading}</span>
+        </nav>
+        <p class="eyebrow">{typeLabel}</p>
+        <h1>{heading}</h1>
+        <p class="guide-dek">{description}</p>
+        <p class="legal-updated guide-meta">
+          {
+            author && (
+              <>
+                <a href={`/en/authors/${author.id}/`}>{author.name}</a>
+                <span aria-hidden="true">·</span>
+              </>
+            )
+          }
+          <span>Published <time datetime={publishedIso}>{publishedLabel}</time></span>
+          {
+            updated && updatedLabel && (
+              <>
+                <span aria-hidden="true">·</span>
+                <span>Updated <time datetime={isoDate(updated)}>{updatedLabel}</time></span>
+              </>
+            )
+          }
+          <span aria-hidden="true">·</span>
+          <span>{minutes} min read</span>
+        </p>
+      </header>
+
+      <div class="guide-body" set:html={body} />
+
+      <aside class="guide-cta" aria-labelledby="guide-cta-title">
+        <div>
+          <h2 id="guide-cta-title">Log your next session in PushLab</h2>
+          <p>Strength, cardio, yoga, Pilates, and stretching in one training log.</p>
+        </div>
+        <button type="button" class="btn btn-primary" data-get-app-open>Get PushLab</button>
+      </aside>
+
+      {
+        faq.length > 0 && (
+          <section class="guide-faq" aria-labelledby="guide-faq-title">
+            <h2 id="guide-faq-title">Questions people ask</h2>
+            {faq.map((item) => (
+              <div class="guide-faq-item">
+                <h3>{item.question}</h3>
+                <p>{item.answer}</p>
+              </div>
+            ))}
+          </section>
+        )
+      }
+
+      {
+        related.length > 0 && (
+          <nav class="guide-nav" aria-labelledby="guide-nav-title">
+            <h2 id="guide-nav-title">Keep reading</h2>
+            <ul>
+              {related.map((item) => (
+                <li>
+                  <a href={item.href}>
+                    <span class="guide-nav-kicker">{item.kicker}</span>
+                    <span class="guide-nav-title">{item.title}</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        )
+      }
+
+      {
+        author && (
+          <aside class="guide-author" aria-labelledby="guide-author-name">
+            <p class="eyebrow">Author</p>
+            <h2 id="guide-author-name">{author.name}</h2>
+            <p class="guide-author-role">{author.role}</p>
+            <p>{author.bio}</p>
+            <a href={`/en/authors/${author.id}/`}>More by {author.name}</a>
+          </aside>
+        )
+      }
+    </article>
+  </main>
+
+  <SiteFooter locale="en" basePath="/en/" />
+</BaseLayout>

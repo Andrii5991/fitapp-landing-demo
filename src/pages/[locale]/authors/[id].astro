@@ -1,0 +1,63 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import SkipLink from '../../../components/SkipLink.astro';
+import SiteHeader from '../../../components/SiteHeader.astro';
+import SiteFooter from '../../../components/SiteFooter.astro';
+import { getCollection } from 'astro:content';
+import { articleHeading, articleUrl, formatArticleDate, getPublishedArticles, isoDate, sectionForType, SECTION_LABEL } from '../../../lib/articles';
+import { authorJsonLd } from '../../../lib/article-schema';
+
+export async function getStaticPaths() {
+  const authors = await getCollection('authors');
+  return authors.map((author) => ({
+    params: { locale: 'en', id: author.id },
+    props: { author },
+  }));
+}
+
+const { author } = Astro.props;
+const articles = (await getPublishedArticles('en')).filter((entry) => entry.data.author === author.id);
+const title = `${author.data.name} — PushLab`;
+const description = author.data.bio.slice(0, 160);
+const jsonLd = authorJsonLd(
+  { id: author.id, name: author.data.name, role: author.data.role, bio: author.data.bio },
+  'en'
+);
+---
+
+<BaseLayout title={title} description={description} lang="en" jsonLd={jsonLd}>
+  <SkipLink />
+  <SiteHeader locale="en" basePath="/en/" />
+
+  <main id="main" class="guides-hub">
+    <div class="container">
+      <header class="guides-hub-head">
+        <p class="eyebrow">Author</p>
+        <h1>{author.data.name}</h1>
+        <p>{author.data.role}</p>
+        <p>{author.data.bio}</p>
+      </header>
+
+      <ul class="guides-hub-grid">
+        {
+          articles.map((article) => (
+            <li class="guides-hub-card">
+              <a href={articleUrl(article)}>
+                <span class="guides-hub-kicker">{SECTION_LABEL[sectionForType(article.data.type)]}</span>
+                <h2>{articleHeading(article)}</h2>
+                <p>{article.data.description}</p>
+                <span class="guides-hub-meta">
+                  <time datetime={isoDate(article.data.publishedAt)}>
+                    {formatArticleDate(article.data.publishedAt)}
+                  </time>
+                </span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </main>
+
+  <SiteFooter locale="en" basePath="/en/" />
+</BaseLayout>

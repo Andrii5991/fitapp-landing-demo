@@ -9,7 +9,14 @@ import Platforms from '../../components/Platforms.astro';
 import Faq from '../../components/Faq.astro';
 import CtaBand from '../../components/CtaBand.astro';
 import SiteFooter from '../../components/SiteFooter.astro';
-import { copyByLocale, getLocaleFromParam, SUPPORTED_LOCALES, type Locale } from '../../lib/i18n';
+import {
+  copyByLocale,
+  getLocaleFromParam,
+  hreflangForLocale,
+  SUPPORTED_LOCALES,
+  type Locale,
+} from '../../lib/i18n';
+import { APP_SUPPORT } from '../../lib/app-support';
 
 export function getStaticPaths() {
   return SUPPORTED_LOCALES.map((locale) => ({ params: { locale } }));
@@ -30,7 +37,10 @@ const languageUrls = Object.fromEntries(
 ) as Record<Locale, string>;
 
 const alternates = [
-  ...SUPPORTED_LOCALES.map((lang) => ({ hreflang: lang, href: languageUrls[lang] })),
+  ...SUPPORTED_LOCALES.map((lang) => ({
+    hreflang: hreflangForLocale(lang),
+    href: languageUrls[lang],
+  })),
   { hreflang: 'x-default', href: languageUrls.en },
 ];
 
@@ -41,10 +51,17 @@ const jsonLd = [
     '@context': 'https://schema.org',
     '@type': 'Organization',
     '@id': `${siteUrl}/#organization`,
-    name: 'PushLab',
+    name: APP_SUPPORT.company,
+    legalName: APP_SUPPORT.company,
     url: siteUrl,
+    email: APP_SUPPORT.supportEmail,
+    logo: `${siteUrl}/favicon.svg`,
     description:
-      'PushLab helps athletes track workouts, monitor progress, and stay consistent across strength, cardio, yoga, Pilates, and stretching.',
+      'DOARBO builds PushLab, a workout tracking app for logging sessions and reviewing progress across strength, cardio, yoga, Pilates, and stretching.',
+    brand: {
+      '@type': 'Brand',
+      name: 'PushLab',
+    },
   },
   {
     '@context': 'https://schema.org',
@@ -53,7 +70,7 @@ const jsonLd = [
     url: siteUrl,
     name: 'PushLab',
     description: copy.hero.line1 + ' ' + copy.hero.line2,
-    inLanguage: locale,
+    inLanguage: hreflangForLocale(locale),
     publisher: {
       '@id': `${siteUrl}/#organization`,
     },
@@ -65,18 +82,24 @@ const jsonLd = [
     name: 'PushLab',
     url: siteUrl,
     applicationCategory: 'HealthApplication',
-    operatingSystem: 'iOS, Android, Web, Wear OS, Apple Watch',
-    inLanguage: locale,
+    operatingSystem: 'iOS, Android',
+    inLanguage: hreflangForLocale(locale),
     description:
       'PushLab helps athletes track workouts, monitor progress, and stay consistent across strength, cardio, yoga, Pilates, and stretching.',
     publisher: {
       '@id': `${siteUrl}/#organization`,
     },
+    offers: {
+      '@type': 'Offer',
+      price: '0',
+      priceCurrency: 'USD',
+      description: 'Current release is free. No active in-app subscriptions.',
+    },
   },
   {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
-    inLanguage: locale,
+    inLanguage: hreflangForLocale(locale),
     mainEntity: faqEntries.map((entry) => ({
       '@type': 'Question',
       name: entry.question,
@@ -101,11 +124,11 @@ const jsonLd = [
   <SiteHeader locale={locale} basePath={basePath} />
 
   <main id="main">
-    <Hero locale={locale} basePath={basePath} stageVideoSrc="/Natural-Titanium%20(1).svg" />
+    <Hero locale={locale} basePath={basePath} stageVideoSrc="/optimized/hero-stage.webp" />
     <WorkflowCarousel locale={locale} />
     <Features locale={locale} />
-    <Faq locale={locale} />
     <Platforms locale={locale} />
+    <Faq locale={locale} />
     <CtaBand locale={locale} />
   </main>
 

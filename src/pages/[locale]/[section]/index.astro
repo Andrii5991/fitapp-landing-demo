@@ -1,0 +1,108 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import SkipLink from '../../../components/SkipLink.astro';
+import SiteHeader from '../../../components/SiteHeader.astro';
+import SiteFooter from '../../../components/SiteFooter.astro';
+import {
+  articleHeading,
+  articleUrl,
+  formatArticleDate,
+  getPublishedArticles,
+  isoDate,
+  sectionForType,
+  SECTION_LABEL,
+  TYPE_BY_SECTION,
+  type ArticleSection,
+} from '../../../lib/articles';
+import { collectionJsonLd } from '../../../lib/article-schema';
+import { SUPPORTED_LOCALES } from '../../../lib/i18n';
+
+export async function getStaticPaths() {
+  const articles = await getPublishedArticles();
+  const locales = new Set(articles.map((entry) => entry.data.lang));
+  const sections = new Set(articles.map((entry) => sectionForType(entry.data.type)));
+  const paths = [];
+  for (const locale of locales) {
+    if (!SUPPORTED_LOCALES.includes(locale)) continue;
+    for (const section of sections) {
+      paths.push({ params: { locale, section } });
+    }
+  }
+  return paths;
+}
+
+const locale = Astro.params.locale as string;
+const section = Astro.params.section as ArticleSection;
+const type = TYPE_BY_SECTION[section];
+const all = await getPublishedArticles(locale as 'en');
+const list =
+  section === 'blog'
+    ? all
+    : all.filter((entry) => entry.data.type === type);
+
+const copy: Record<ArticleSection, { title: string; heading: string; description: string }> = {
+  blog: {
+    title: 'PushLab blog — Workout logging and progress',
+    heading: 'Blog',
+    description:
+      'Practical writing on workout logs, progress, and training data—built so people and AI systems can cite a clear answer.',
+  },
+  guides: {
+    title: 'PushLab guides — How to log workouts and track progress',
+    heading: 'Guides for logging and progress',
+    description:
+      'Practical guides for logging sessions, reading progress, and using a dedicated workout log instead of notes or spreadsheets.',
+  },
+  compare: {
+    title: 'Compare workout logs — PushLab vs notes and spreadsheets',
+    heading: 'Compare',
+    description: 'Side-by-side writing on workout logs versus notes, spreadsheets, and ad-hoc tracking.',
+  },
+};
+
+const page = copy[section];
+const siteOrigin = Astro.site?.origin ?? 'https://pushlab.app';
+const jsonLd = collectionJsonLd(page.title, page.description, `${siteOrigin}/${locale}/${section}/`);
+---
+
+<BaseLayout
+  title={page.title}
+  description={page.description}
+  lang="en"
+  jsonLd={jsonLd}
+  rssHref={section === 'blog' ? `${siteOrigin}/en/blog/rss.xml` : undefined}
+>
+  <SkipLink />
+  <SiteHeader locale="en" basePath="/en/" />
+
+  <main id="main" class="guides-hub">
+    <div class="container">
+      <header class="guides-hub-head">
+        <p class="eyebrow">{SECTION_LABEL[section]}</p>
+        <h1>{page.heading}</h1>
+        <p>{page.description}</p>
+      </header>
+
+      <ul class="guides-hub-grid">
+        {
+          list.map((article, index) => (
+            <li class:list={['guides-hub-card', index === 0 && 'guides-hub-card--lead']}>
+              <a href={articleUrl(article)}>
+                <span class="guides-hub-kicker">{SECTION_LABEL[sectionForType(article.data.type)]}</span>
+                <h2>{articleHeading(article)}</h2>
+                <p>{article.data.description}</p>
+                <span class="guides-hub-meta">
+                  <time datetime={isoDate(article.data.publishedAt)}>
+                    {formatArticleDate(article.data.publishedAt)}
+                  </time>
+                </span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </main>
+
+  <SiteFooter locale="en" basePath="/en/" />
+</BaseLayout>

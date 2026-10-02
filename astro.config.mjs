@@ -1,10 +1,25 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
+import react from '@astrojs/react';
+import markdoc from '@astrojs/markdoc';
+import keystatic from '@keystatic/astro';
+import vercel from '@astrojs/vercel/serverless';
 
-// https://docs.astro.build/en/reference/configuration-reference/
 const site = process.env.SITE_URL ?? 'https://pushlab.app';
 
 export default defineConfig({
   site,
-  integrations: [sitemap()],
+  output: 'hybrid',
+  adapter: vercel(),
+  integrations: [
+    react(),
+    markdoc(),
+    keystatic(),
+    sitemap({
+      filter: (page) => !page.includes('/keystatic') && !page.includes('/api/keystatic'),
+    }),
+  ],
+  redirects: {
+    '/': '/en/',
+  },
 });

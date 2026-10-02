@@ -11,9 +11,9 @@ const slides = copy.workflow.slides;
 
 /** One screen per step: Train → workout, Log → calendar, Repeat → stats */
 const workflowSlideArt = [
-  { src: '/workoutSemi.svg', w: 1150, h: 1200 },
-  { src: '/calendarSemi.svg', w: 1150, h: 1200 },
-  { src: '/statSemi.svg', w: 1150, h: 1200 },
+  { src: '/optimized/workoutSemi.webp', w: 1150, h: 1200 },
+  { src: '/optimized/calendarSemi.webp', w: 1150, h: 1200 },
+  { src: '/optimized/statSemi.webp', w: 1150, h: 1200 },
 ] as const;
 ---
 
@@ -52,7 +52,7 @@ const workflowSlideArt = [
                     src={art.src}
                     width={art.w}
                     height={art.h}
-                    alt=""
+                    alt={`${slide.tag}: ${slide.title}`}
                     loading="lazy"
                     decoding="async"
                   />

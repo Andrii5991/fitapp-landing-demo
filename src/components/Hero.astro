@@ -78,18 +78,11 @@ const copy = copyByLocale[locale];
         {copy.hero.sub}
       </p>
       <div class="hero-ctas">
-        <a class="btn btn-primary" id="cta" href="#" data-i18n="hero.ctaPrimary">{copy.hero.ctaPrimary}</a>
+        <button type="button" class="btn btn-primary" id="cta" data-get-app-open data-i18n="hero.ctaPrimary">{copy.hero.ctaPrimary}</button>
         <a class="btn btn-ghost" href={`${basePath}#product`} data-locale-section="product" data-i18n="hero.ctaSecondary">{copy.hero.ctaSecondary}</a>
       </div>
       <div class="rating-row">
-        <span class="rating-stars" aria-hidden="true">
-          <svg class="rating-star" viewBox="0 0 24 24" focusable="false"><path fill="currentColor" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-          <svg class="rating-star" viewBox="0 0 24 24" focusable="false"><path fill="currentColor" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-          <svg class="rating-star" viewBox="0 0 24 24" focusable="false"><path fill="currentColor" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-          <svg class="rating-star" viewBox="0 0 24 24" focusable="false"><path fill="currentColor" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-          <svg class="rating-star" viewBox="0 0 24 24" focusable="false"><path fill="currentColor" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-        </span>
-        <span><strong class="text-body">4.9</strong> App Store · <strong class="text-body">4.9</strong> Google Play</span>
+        <span class="rating-dot" aria-hidden="true"></span>
         <span data-i18n="hero.trust">{copy.hero.trust}</span>
       </div>
       <div class="hero-meta">

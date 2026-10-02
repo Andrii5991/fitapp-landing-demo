@@ -1,0 +1,11 @@
+{
+  "name": "DOARBO",
+  "role": "Team at DOARBO",
+  "bio": "DOARBO builds PushLab, a workout tracking app for logging strength, cardio, yoga, Pilates, and stretching in one place.",
+  "links": [
+    {
+      "label": "PushLab",
+      "url": "https://pushlab.app"
+    }
+  ]
+}

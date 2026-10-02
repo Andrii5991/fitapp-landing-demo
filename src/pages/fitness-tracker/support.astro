@@ -1,0 +1,177 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SkipLink from '../../components/SkipLink.astro';
+import SupportSiteHeader from '../../components/SupportSiteHeader.astro';
+import SupportLegalFooter from '../../components/SupportLegalFooter.astro';
+import { APP_SUPPORT } from '../../lib/app-support';
+import { supportCopy, type SupportLang } from '../../lib/support-copy';
+
+const lang: SupportLang = Astro.url.searchParams.get('lang') === 'de' ? 'de' : 'en';
+const copy = supportCopy[lang];
+const mailtoHref = `mailto:${APP_SUPPORT.supportEmail}?subject=${encodeURIComponent(`${APP_SUPPORT.appName} Support`)}`;
+const siteOrigin = Astro.site?.origin ?? 'https://pushlab.app';
+const alternates = [
+  { hreflang: 'en', href: `${siteOrigin}${APP_SUPPORT.supportPath}?lang=en` },
+  { hreflang: 'de', href: `${siteOrigin}${APP_SUPPORT.supportPath}?lang=de` },
+  { hreflang: 'x-default', href: `${siteOrigin}${APP_SUPPORT.supportPath}` },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    inLanguage: lang,
+    mainEntity: copy.faq.items.map((item) => ({
+      '@type': 'Question',
+      name: item.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: item.answer,
+      },
+    })),
+  },
+];
+---
+
+<BaseLayout
+  title={copy.meta.title}
+  description={copy.meta.description}
+  lang={lang}
+  alternates={alternates}
+  jsonLd={jsonLd}
+>
+  <SkipLink />
+  <SupportSiteHeader lang={lang} />
+
+  <main id="main" class="support-page">
+    <section class="support-hero" aria-labelledby="support-title">
+      <div class="container">
+        <p class="support-eyebrow">{APP_SUPPORT.company} · iOS App Support</p>
+        <h1 id="support-title">{copy.hero.title}</h1>
+        {copy.hero.subtitle && <p class="support-subtitle">{copy.hero.subtitle}</p>}
+        <p class="support-intro">{copy.hero.intro}</p>
+        <div class="support-hero-actions">
+          <a class="btn btn-primary" href={`#contact`}>{copy.contact.title}</a>
+          <a class="btn btn-secondary" href={mailtoHref}>
+            {APP_SUPPORT.supportEmail}
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section support-section" aria-labelledby="about-title">
+      <div class="container">
+        <div class="section-head">
+          <h2 id="about-title">{copy.about.title}</h2>
+        </div>
+        <ul class="support-about-list">
+          {copy.about.items.map((item) => <li>{item}</li>)}
+        </ul>
+      </div>
+    </section>
+
+    <section class="section support-section" id="contact" aria-labelledby="contact-title">
+      <div class="container support-contact-grid">
+        <div>
+          <div class="section-head">
+            <h2 id="contact-title">{copy.contact.title}</h2>
+            <p>{copy.contact.intro}</p>
+          </div>
+          <div class="support-email-card">
+            <span class="support-email-label">{copy.contact.emailLabel}</span>
+            <a class="support-email-link" href={mailtoHref}>{APP_SUPPORT.supportEmail}</a>
+            <p class="support-response-time">{copy.contact.responseTime}</p>
+          </div>
+        </div>
+
+        <div class="support-form-card">
+          <h3>{copy.contact.formTitle}</h3>
+          <form class="support-form" id="support-contact-form" novalidate>
+            <label>
+              <span>{copy.contact.formName}</span>
+              <input type="text" name="name" autocomplete="name" required />
+            </label>
+            <label>
+              <span>{copy.contact.formEmail}</span>
+              <input type="email" name="email" autocomplete="email" required />
+            </label>
+            <label>
+              <span>{copy.contact.formVersion}</span>
+              <input type="text" name="version" placeholder="e.g. 1.0.0 (42)" />
+            </label>
+            <label>
+              <span>{copy.contact.formMessage}</span>
+              <textarea name="message" rows="5" required></textarea>
+            </label>
+            <button type="submit" class="btn btn-primary">{copy.contact.formSubmit}</button>
+            <p class="support-form-hint">{copy.contact.formHint}</p>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <section class="section support-section" id="faq" aria-labelledby="faq-title">
+      <div class="container">
+        <div class="section-head">
+          <h2 id="faq-title">{copy.faq.title}</h2>
+        </div>
+        <div class="faq-list">
+          {
+            copy.faq.items.map((item) => (
+              <article class="faq-item">
+                <h3>{item.question}</h3>
+                <p>{item.answer}</p>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <section class="section support-section support-reviewer" aria-labelledby="reviewer-title">
+      <div class="container">
+        <div class="section-head">
+          <h2 id="reviewer-title">{copy.reviewer.title}</h2>
+        </div>
+        <dl class="support-details-list">
+          {
+            copy.reviewer.items.map((item) => (
+              <>
+                <dt>{item.label}</dt>
+                <dd>{item.value}</dd>
+              </>
+            ))
+          }
+        </dl>
+      </div>
+    </section>
+  </main>
+
+  <SupportLegalFooter lang={lang} />
+
+  <script define:vars={{ supportEmail: APP_SUPPORT.supportEmail, appName: APP_SUPPORT.appName }}>
+    const form = document.getElementById('support-contact-form');
+    form?.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const data = new FormData(form);
+      const name = String(data.get('name') || '').trim();
+      const email = String(data.get('email') || '').trim();
+      const version = String(data.get('version') || '').trim();
+      const message = String(data.get('message') || '').trim();
+      if (!name || !email || !message) return;
+
+      const body = [
+        `Name: ${name}`,
+        `Email: ${email}`,
+        version ? `App version: ${version}` : null,
+        '',
+        message,
+      ]
+        .filter(Boolean)
+        .join('\n');
+
+      const url = `mailto:${supportEmail}?subject=${encodeURIComponent(`${appName} Support`)}&body=${encodeURIComponent(body)}`;
+      window.location.href = url;
+    });
+  </script>
+</BaseLayout>

@@ -1,4 +1,5 @@
 ---
+import { APP_SUPPORT } from '../lib/app-support';
 import { SUPPORTED_LOCALES, copyByLocale, type Locale } from '../lib/i18n';
 
 interface Props {
@@ -21,7 +22,7 @@ const localeLabel: Record<Locale, string> = {
 <footer class="site-footer">
   <div class="container footer-grid">
     <div>
-      <div class="footer-brand">PushLab</div>
+      <div class="footer-brand">Push<span>Lab</span></div>
       <p data-i18n="footer.tagline">{copy.footer.tagline}</p>
       <div class="language-switcher footer-language-switcher" data-i18n-aria-label="nav.languageLabel">
         <details class="language-dropdown">
@@ -53,22 +54,39 @@ const localeLabel: Record<Locale, string> = {
         <li>
           <a href={`${basePath}#platforms`} data-locale-section="platforms" data-i18n="footer.platforms">{copy.footer.platforms}</a>
         </li>
-        <li><a href="#" data-i18n="footer.changelog">{copy.footer.changelog}</a></li>
+        <li>
+          <a href="/en/guides/" data-i18n="footer.guides">{copy.footer.guides}</a>
+        </li>
+        <li>
+          <a href="/en/blog/" data-i18n="footer.blog">{copy.footer.blog}</a>
+        </li>
+        <li>
+          <a href="/en/compare/" data-i18n="footer.compare">{copy.footer.compare}</a>
+        </li>
+        <li>
+          <a href="/en/changelog/" data-i18n="footer.changelog">{copy.footer.changelog}</a>
+        </li>
+        <li>
+          <a href={APP_SUPPORT.supportPath} data-i18n="footer.appSupport">{copy.footer.appSupport}</a>
+        </li>
       </ul>
     </div>
     <div class="footer-col">
       <h4 data-i18n="footer.company">{copy.footer.company}</h4>
       <ul>
-        <li><a href="#" data-i18n="footer.about">{copy.footer.about}</a></li>
-        <li><a href="#" data-i18n="footer.careers">{copy.footer.careers}</a></li>
-        <li><a href="#" data-i18n="footer.contact">{copy.footer.contact}</a></li>
+        <li>
+          <a href="/en/what-is-pushlab/" data-i18n="footer.about">{copy.footer.about}</a>
+        </li>
+        <li>
+          <a href={`${APP_SUPPORT.supportPath}#contact`} data-i18n="footer.contact">{copy.footer.contact}</a>
+        </li>
       </ul>
     </div>
     <div class="footer-col">
       <h4 data-i18n="footer.legal">{copy.footer.legal}</h4>
       <ul>
-        <li><a href="#" data-i18n="footer.privacy">{copy.footer.privacy}</a></li>
-        <li><a href="#" data-i18n="footer.terms">{copy.footer.terms}</a></li>
+        <li><a href={APP_SUPPORT.privacyPath} data-i18n="footer.privacy">{copy.footer.privacy}</a></li>
+        <li><a href={APP_SUPPORT.termsPath} data-i18n="footer.terms">{copy.footer.terms}</a></li>
       </ul>
     </div>
   </div>
