@@ -1,9 +1,19 @@
 import { collection, config, fields } from '@keystatic/core';
 
+const env = import.meta.env as Record<string, string | boolean | undefined>;
+const repoSlug =
+  (typeof env.PUBLIC_KEYSTATIC_GITHUB_REPO === 'string' && env.PUBLIC_KEYSTATIC_GITHUB_REPO) ||
+  'Andrii5991/fitapp-landing-demo';
+const [repoOwner, repoName] = repoSlug.split('/');
+const useGithub = env.PUBLIC_KEYSTATIC_GITHUB === '1' || env.PROD === true;
+
 export default config({
-  storage: {
-    kind: 'local',
-  },
+  storage: useGithub
+    ? {
+        kind: 'github',
+        repo: { owner: repoOwner, name: repoName },
+      }
+    : { kind: 'local' },
   ui: {
     brand: { name: 'PushLab' },
   },
