@@ -7,6 +7,7 @@ import {
   articleHeading,
   articleUrl,
   formatArticleDate,
+  getListingLayout,
   getPublishedArticles,
   isoDate,
   sectionForType,
@@ -61,6 +62,8 @@ const copy: Record<ArticleSection, { title: string; heading: string; description
 };
 
 const page = copy[section];
+const listingLayout = await getListingLayout();
+const featured = listingLayout === 'featured';
 const siteOrigin = Astro.site?.origin ?? 'https://pushlab.app';
 const jsonLd = collectionJsonLd(page.title, page.description, `${siteOrigin}/${locale}/${section}/`);
 ---
@@ -77,16 +80,18 @@ const jsonLd = collectionJsonLd(page.title, page.description, `${siteOrigin}/${l
 
   <main id="main" class="guides-hub">
     <div class="container">
-      <header class="guides-hub-head">
-        <p class="eyebrow">{SECTION_LABEL[section]}</p>
-        <h1>{page.heading}</h1>
+      <header class:list={['guides-hub-head', !featured && 'guides-hub-head--split']}>
+        <div>
+          <p class="eyebrow">{SECTION_LABEL[section]}</p>
+          <h1>{page.heading}</h1>
+        </div>
         <p>{page.description}</p>
       </header>
 
-      <ul class="guides-hub-grid">
+      <ul class:list={['guides-hub-grid', `guides-hub-grid--${listingLayout}`]}>
         {
           list.map((article, index) => (
-            <li class:list={['guides-hub-card', index === 0 && 'guides-hub-card--lead']}>
+            <li class:list={['guides-hub-card', featured && index === 0 && 'guides-hub-card--lead']}>
               <a href={articleUrl(article)}>
                 <span class="guides-hub-kicker">{SECTION_LABEL[sectionForType(article.data.type)]}</span>
                 <h2>{articleHeading(article)}</h2>

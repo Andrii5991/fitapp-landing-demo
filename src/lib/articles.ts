@@ -3,6 +3,14 @@ import { getCollection, getEntry, type CollectionEntry } from 'astro:content';
 export type ArticleEntry = CollectionEntry<'articles'>;
 export type ArticleType = ArticleEntry['data']['type'];
 export type ArticleSection = 'guides' | 'compare' | 'blog';
+export type ListingLayout = 'grid-3' | 'grid-2' | 'featured';
+
+export async function getListingLayout(): Promise<ListingLayout> {
+  const entry = await getEntry('settings', 'listing');
+  const layout = entry?.data.layout;
+  if (layout === 'grid-2' || layout === 'featured' || layout === 'grid-3') return layout;
+  return 'grid-3';
+}
 
 const SECTION_BY_TYPE: Record<ArticleType, ArticleSection> = {
   guide: 'guides',

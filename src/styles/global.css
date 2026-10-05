@@ -3201,6 +3201,23 @@ a {
   margin-bottom: clamp(2.5rem, 5vw, 3.5rem);
 }
 
+.guides-hub-head--split {
+  max-width: none;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  justify-content: space-between;
+  gap: 1rem 2.5rem;
+}
+
+.guides-hub-head--split h1 {
+  margin-bottom: 0;
+}
+
+.guides-hub-head--split p {
+  max-width: 36rem;
+}
+
 .guides-hub-head h1 {
   margin: 0 0 1rem;
   font-family: var(--font-display);
@@ -3220,19 +3237,31 @@ a {
 
 .guides-hub-grid {
   display: grid;
-  gap: 1rem;
+  gap: 1.35rem 1.25rem;
   margin: 0;
   padding: 0;
   list-style: none;
+  grid-template-columns: minmax(0, 1fr);
 }
 
 @media (min-width: 720px) {
-  .guides-hub-grid {
+  .guides-hub-grid--grid-2,
+  .guides-hub-grid--featured {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .guides-hub-grid--grid-3 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .guides-hub-card--lead {
     grid-column: 1 / -1;
+  }
+}
+
+@media (min-width: 960px) {
+  .guides-hub-grid--grid-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 
@@ -3278,17 +3307,27 @@ a {
 .guides-hub-card h2 {
   margin: 0 0 0.6rem;
   font-family: var(--font-display);
-  font-size: clamp(1.25rem, 2.4vw, 1.7rem);
+  font-size: clamp(1.15rem, 2vw, 1.45rem);
   font-weight: 700;
   letter-spacing: -0.02em;
-  line-height: 1.15;
+  line-height: 1.2;
+}
+
+.guides-hub-grid--featured .guides-hub-card--lead h2 {
+  font-size: clamp(1.25rem, 2.4vw, 1.7rem);
 }
 
 .guides-hub-card p {
   margin: 0 0 1.25rem;
-  max-width: 48ch;
   color: var(--text-muted);
   text-wrap: pretty;
+}
+
+.guides-hub-grid--grid-3 .guides-hub-card p {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .guides-hub-meta {

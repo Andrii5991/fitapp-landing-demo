@@ -28,6 +28,13 @@ const authors = defineCollection({
   }),
 });
 
+const settings = defineCollection({
+  type: 'data',
+  schema: z.object({
+    layout: z.enum(['grid-3', 'grid-2', 'featured']).default('grid-3'),
+  }),
+});
+
 const articles = defineCollection({
   type: 'content',
   schema: z.object({
@@ -47,4 +54,4 @@ const articles = defineCollection({
   }),
 });
 
-export const collections = { authors, articles };
+export const collections = { authors, articles, settings };

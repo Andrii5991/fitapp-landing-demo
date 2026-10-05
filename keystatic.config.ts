@@ -1,4 +1,4 @@
-import { collection, config, fields } from '@keystatic/core';
+import { collection, config, fields, singleton } from '@keystatic/core';
 
 const env = import.meta.env as Record<string, string | boolean | undefined>;
 const repoSlug =
@@ -16,6 +16,25 @@ export default config({
     : { kind: 'local' },
   ui: {
     brand: { name: 'PushLab' },
+  },
+  singletons: {
+    listing: singleton({
+      label: 'Listing layout',
+      path: 'src/content/settings/listing',
+      format: { data: 'json' },
+      schema: {
+        layout: fields.select({
+          label: 'Blog / guides / compare grid',
+          description: 'How article cards sit on listing pages. Save, then wait for the site deploy.',
+          options: [
+            { label: '3 cards in a row', value: 'grid-3' },
+            { label: '2 cards in a row', value: 'grid-2' },
+            { label: 'Featured first (wide lead card)', value: 'featured' },
+          ],
+          defaultValue: 'grid-3',
+        }),
+      },
+    }),
   },
   collections: {
     authors: collection({
