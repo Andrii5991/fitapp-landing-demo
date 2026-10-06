@@ -1,0 +1,61 @@
+---
+import AuthLayout from '../layouts/AuthLayout.astro';
+---
+
+<AuthLayout
+  title="Verify email — PushLab"
+  description="Confirm your PushLab email address using the token from your verification link."
+>
+  <p class="eyebrow">Account</p>
+  <h1>Verify your email</h1>
+  <p class="auth-lead" data-auth-missing>
+    This link is missing a verification token. Open the latest email from PushLab, or request a new one in the app.
+  </p>
+
+  <div id="verify-panel" class="auth-form" hidden>
+    <p class="auth-lead">Confirm this address to finish setting up your PushLab account.</p>
+    <p id="verify-error" class="auth-error" role="alert" hidden></p>
+    <button type="button" class="btn btn-primary" id="verify-submit">Confirm email</button>
+  </div>
+</AuthLayout>
+
+<script>
+  import { postAuthJson, readQueryToken } from '../lib/auth-api';
+
+  const panel = document.getElementById('verify-panel') as HTMLElement | null;
+  const missing = document.querySelector('[data-auth-missing]') as HTMLElement | null;
+  const errorEl = document.getElementById('verify-error') as HTMLElement | null;
+  const submit = document.getElementById('verify-submit') as HTMLButtonElement | null;
+  const token = readQueryToken();
+
+  function showError(message: string) {
+    if (!errorEl) return;
+    errorEl.hidden = false;
+    errorEl.textContent = message;
+  }
+
+  if (token) {
+    panel?.removeAttribute('hidden');
+    if (missing) missing.hidden = true;
+  }
+
+  submit?.addEventListener('click', async () => {
+    if (!token) {
+      showError('Invalid or missing verification token.');
+      return;
+    }
+
+    submit.disabled = true;
+    submit.textContent = 'Confirming…';
+    if (errorEl) errorEl.hidden = true;
+
+    try {
+      await postAuthJson('/auth/verify-email', { token });
+      window.location.assign('/auth/success?kind=verify');
+    } catch (err) {
+      showError(err instanceof Error ? err.message : 'Could not verify email.');
+      submit.disabled = false;
+      submit.textContent = 'Confirm email';
+    }
+  });
+</script>

@@ -1,0 +1,35 @@
+---
+import AuthLayout from '../../layouts/AuthLayout.astro';
+---
+
+<AuthLayout
+  title="Account updated — PushLab"
+  description="Your PushLab account action completed. You can return to the app."
+>
+  <p class="eyebrow">Account</p>
+  <h1 id="success-title">Done</h1>
+  <p class="auth-lead" id="success-copy">You can close this page and open PushLab.</p>
+  <p>
+    <a class="btn btn-primary" href="/en/">Back to PushLab</a>
+  </p>
+</AuthLayout>
+
+<script>
+  import { readQueryKind } from '../../lib/auth-api';
+
+  const kind = readQueryKind();
+  const title = document.getElementById('success-title');
+  const copy = document.getElementById('success-copy');
+
+  if (kind === 'reset') {
+    if (title) title.textContent = 'Password updated';
+    if (copy) {
+      copy.textContent = 'Your new password is saved. Open PushLab and sign in with it.';
+    }
+  } else if (kind === 'verify') {
+    if (title) title.textContent = 'Email verified';
+    if (copy) {
+      copy.textContent = 'Your email is confirmed. You can return to PushLab.';
+    }
+  }
+</script>

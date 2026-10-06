@@ -44,6 +44,8 @@ const robotsContent = noindex ? 'noindex, nofollow' : 'index, follow';
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="theme-color" content="#0e1011" />
     <meta name="robots" content={robotsContent} />
+    {noindex && <meta name="referrer" content="no-referrer" />}
+    <slot name="head" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>

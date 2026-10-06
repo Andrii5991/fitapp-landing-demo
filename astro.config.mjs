@@ -16,7 +16,12 @@ export default defineConfig({
     markdoc(),
     keystatic(),
     sitemap({
-      filter: (page) => !page.includes('/keystatic') && !page.includes('/api/keystatic'),
+      filter: (page) =>
+        !page.includes('/keystatic') &&
+        !page.includes('/api/keystatic') &&
+        !page.includes('/reset-password') &&
+        !page.includes('/verify-email') &&
+        !page.includes('/auth/'),
     }),
   ],
   redirects: {

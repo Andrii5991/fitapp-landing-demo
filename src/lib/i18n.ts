@@ -276,7 +276,7 @@ export const copyByLocale: Record<Locale, LocaleCopy> = {
       privacy: 'Privacy',
       terms: 'Terms',
       appSupport: 'PushLab Support',
-      legalLine: 'A product by DOARBO.',
+      legalLine: 'A product by Veliard LTD.',
     },
   },
   es: {
@@ -451,7 +451,7 @@ export const copyByLocale: Record<Locale, LocaleCopy> = {
       privacy: 'Privacidad',
       terms: 'Terminos',
       appSupport: 'Soporte PushLab',
-      legalLine: 'Un producto de DOARBO.',
+      legalLine: 'Un producto de Veliard LTD.',
     },
   },
   'pt-br': {
@@ -626,7 +626,7 @@ export const copyByLocale: Record<Locale, LocaleCopy> = {
       privacy: 'Privacidade',
       terms: 'Termos',
       appSupport: 'Suporte PushLab',
-      legalLine: 'Um produto da DOARBO.',
+      legalLine: 'Um produto da Veliard LTD.',
     },
   },
   de: {
@@ -800,7 +800,7 @@ export const copyByLocale: Record<Locale, LocaleCopy> = {
       privacy: 'Datenschutz',
       terms: 'Nutzungsbedingungen',
       appSupport: 'PushLab Support',
-      legalLine: 'Ein Produkt von DOARBO.',
+      legalLine: 'Ein Produkt von Veliard LTD.',
     },
   },
   fr: {
@@ -975,7 +975,7 @@ export const copyByLocale: Record<Locale, LocaleCopy> = {
       privacy: 'Confidentialite',
       terms: 'Conditions',
       appSupport: 'Support PushLab',
-      legalLine: 'Un produit de DOARBO.',
+      legalLine: 'Un produit de Veliard LTD.',
     },
   },
 };

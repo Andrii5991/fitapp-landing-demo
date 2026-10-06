@@ -1,0 +1,24 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import SkipLink from '../components/SkipLink.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+---
+
+<BaseLayout title={title} description={description} lang="en" noindex={true}>
+  <SkipLink />
+  <SiteHeader locale="en" basePath="/en/" />
+  <main id="main" class="auth-page">
+    <div class="container auth-page-inner">
+      <slot />
+    </div>
+  </main>
+  <SiteFooter locale="en" basePath="/en/" />
+</BaseLayout>

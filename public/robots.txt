@@ -2,6 +2,9 @@ User-agent: *
 Allow: /
 Disallow: /keystatic
 Disallow: /api/keystatic
+Disallow: /reset-password
+Disallow: /verify-email
+Disallow: /auth/
 
 # AI search and assistant crawlers
 User-agent: GPTBot
