@@ -50,6 +50,8 @@ const articles = defineCollection({
     faq: z.array(faqSchema).default([]),
     steps: z.array(stepSchema).default([]),
     ogImage: z.string().optional(),
+    coverImage: z.string().optional(),
+    coverAlt: z.string().optional(),
     draft: z.boolean().default(false),
   }),
 });

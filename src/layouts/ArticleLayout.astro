@@ -40,6 +40,8 @@ interface Props {
   author?: AuthorBox;
   related?: RelatedItem[];
   ogImage?: string;
+  coverImage?: string;
+  coverAlt?: string;
   rss?: boolean;
 }
 
@@ -56,6 +58,8 @@ const {
   author,
   related = [],
   ogImage,
+  coverImage,
+  coverAlt,
   rss = false,
 } = Astro.props;
 
@@ -90,6 +94,13 @@ const siteOrigin = Astro.site?.origin ?? 'https://pushlab.app';
           <span aria-hidden="true">/</span>
           <span>{heading}</span>
         </nav>
+        {
+          coverImage && (
+            <figure class="guide-cover">
+              <img src={coverImage} alt={coverAlt || heading} width="1200" height="675" />
+            </figure>
+          )
+        }
         <p class="eyebrow">{typeLabel}</p>
         <h1>{heading}</h1>
         <p class="guide-dek">{description}</p>

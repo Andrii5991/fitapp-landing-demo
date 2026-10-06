@@ -93,6 +93,17 @@ const jsonLd = collectionJsonLd(page.title, page.description, `${siteOrigin}/${l
           list.map((article, index) => (
             <li class:list={['guides-hub-card', featured && index === 0 && 'guides-hub-card--lead']}>
               <a href={articleUrl(article)}>
+                {
+                  article.data.coverImage && (
+                    <img
+                      class="guides-hub-cover"
+                      src={article.data.coverImage}
+                      alt=""
+                      width="640"
+                      height="360"
+                    />
+                  )
+                }
                 <span class="guides-hub-kicker">{SECTION_LABEL[sectionForType(article.data.type)]}</span>
                 <h2>{articleHeading(article)}</h2>
                 <p>{article.data.description}</p>

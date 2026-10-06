@@ -2889,6 +2889,20 @@ a {
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
+.guide-cover {
+  margin: 0 0 1.6rem;
+}
+
+.guide-cover img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: var(--radius-xl);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
 .guide-breadcrumb {
   display: flex;
   align-items: center;
@@ -3277,6 +3291,17 @@ a {
     transform 0.3s var(--ease-out-expo),
     border-color 0.3s var(--ease-out-expo),
     background 0.3s var(--ease-out-expo);
+}
+
+.guides-hub-cover {
+  display: block;
+  width: calc(100% + clamp(2.7rem, 6vw, 3.8rem));
+  max-width: none;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  margin: calc(clamp(1.35rem, 3vw, 1.9rem) * -1) calc(clamp(1.35rem, 3vw, 1.9rem) * -1) 1.1rem;
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
 }
 
 .guides-hub-card--lead a {

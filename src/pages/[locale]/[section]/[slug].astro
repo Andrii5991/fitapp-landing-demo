@@ -44,7 +44,7 @@ if (!authorEntry) {
 const related = await getRelatedArticles(entry, 3);
 const { Content } = await entry.render();
 const siteOrigin = Astro.site?.origin ?? 'https://pushlab.app';
-const ogImage = entry.data.ogImage ?? '/og-image.png';
+const ogImage = entry.data.ogImage ?? entry.data.coverImage ?? '/og-image.png';
 const jsonLd = articleJsonLd(
   entry,
   { id: authorEntry.id, name: authorEntry.data.name, role: authorEntry.data.role, bio: authorEntry.data.bio },
@@ -74,6 +74,8 @@ const jsonLd = articleJsonLd(
     title: articleHeading(item),
   }))}
   ogImage={ogImage}
+  coverImage={entry.data.coverImage}
+  coverAlt={entry.data.coverAlt}
   rss={entry.data.type === 'blog'}
 >
   <Content />

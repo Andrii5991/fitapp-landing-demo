@@ -77,6 +77,14 @@ export default config({
           defaultValue: 'blog',
         }),
         publishedAt: fields.date({ label: 'Published', validation: { isRequired: true } }),
+        coverImage: fields.text({
+          label: 'Cover image path',
+          description: 'Public path, e.g. /blog/my-cover.jpg',
+        }),
+        coverAlt: fields.text({
+          label: 'Cover alt text',
+          description: 'Short description of the cover photo.',
+        }),
         draft: fields.checkbox({ label: 'Draft (hide from site)', defaultValue: true }),
         faq: fields.array(
           fields.object({
