@@ -9,9 +9,13 @@ export function getAuthApiBase(): string {
   return (fromEnv || DEFAULT_AUTH_API_BASE).replace(/\/$/, '');
 }
 
-/** Extra query the Lambda handler expects (same role as EXPO_PUBLIC_API_SECRET). */
+/** Same Lambda gate as the app (`EXPO_PUBLIC_API_SECRET`, e.g. token=doarbo). */
+export const DEFAULT_AUTH_API_QUERY = 'token=doarbo';
+
 export function getAuthApiQuery(): string {
-  return import.meta.env.PUBLIC_AUTH_API_QUERY?.trim() ?? '';
+  const fromEnv = import.meta.env.PUBLIC_AUTH_API_QUERY?.trim();
+  if (fromEnv === '') return '';
+  return fromEnv || DEFAULT_AUTH_API_QUERY;
 }
 
 export function buildAuthUrl(path: string): string {
