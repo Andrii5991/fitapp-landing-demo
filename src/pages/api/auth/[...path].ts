@@ -32,7 +32,7 @@ export const POST: APIRoute = async ({ params, request }) => {
     });
   }
 
-  const lambdaRes = await fetch(buildAuthUrl(`/auth/${action}`, body.token), {
+  const lambdaRes = await fetch(buildAuthUrl(`/auth/${action}`), {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(body),

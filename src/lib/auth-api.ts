@@ -9,13 +9,13 @@ export function getAuthApiBase(): string {
   return (fromEnv || DEFAULT_AUTH_API_BASE).replace(/\/$/, '');
 }
 
-/** Same token as the page query (`?token=` from the email link). */
-export function buildAuthUrl(path: string, token?: string): string {
+/** Lambda handler gate (same as the app). Email JWT stays in the JSON body only. */
+export const LAMBDA_GATE_QUERY = 'token=doarbo';
+
+export function buildAuthUrl(path: string): string {
   const base = getAuthApiBase();
   const p = path.startsWith('/') ? path : `/${path}`;
-  const full = `${base}${p}`;
-  if (!token) return full;
-  return `${full}?token=${encodeURIComponent(token)}`;
+  return `${base}${p}?${LAMBDA_GATE_QUERY}`;
 }
 
 export async function postAuthJson<T>(path: string, body: { token: string } & Record<string, unknown>): Promise<T> {
