@@ -19,7 +19,7 @@ export function buildAuthUrl(path: string, token?: string): string {
 }
 
 export async function postAuthJson<T>(path: string, body: { token: string } & Record<string, unknown>): Promise<T> {
-  const res = await fetch(buildAuthUrl(path, body.token), {
+  const res = await fetch(`/api${path}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(body),
