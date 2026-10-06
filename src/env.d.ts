@@ -3,7 +3,6 @@
 
 interface ImportMetaEnv {
   readonly PUBLIC_AUTH_API_BASE?: string;
-  readonly PUBLIC_AUTH_API_QUERY?: string;
 }
 
 interface ImportMeta {

@@ -9,27 +9,17 @@ export function getAuthApiBase(): string {
   return (fromEnv || DEFAULT_AUTH_API_BASE).replace(/\/$/, '');
 }
 
-/** Same Lambda gate as the app (`EXPO_PUBLIC_API_SECRET`, e.g. token=doarbo). */
-export const DEFAULT_AUTH_API_QUERY = 'token=doarbo';
-
-export function getAuthApiQuery(): string {
-  const fromEnv = import.meta.env.PUBLIC_AUTH_API_QUERY?.trim();
-  if (fromEnv === '') return '';
-  return fromEnv || DEFAULT_AUTH_API_QUERY;
-}
-
-export function buildAuthUrl(path: string): string {
+/** Same token as the page query (`?token=` from the email link). */
+export function buildAuthUrl(path: string, token?: string): string {
   const base = getAuthApiBase();
   const p = path.startsWith('/') ? path : `/${path}`;
   const full = `${base}${p}`;
-  const extra = getAuthApiQuery();
-  if (!extra) return full;
-  const sep = full.includes('?') ? '&' : '?';
-  return `${full}${sep}${extra}`;
+  if (!token) return full;
+  return `${full}?token=${encodeURIComponent(token)}`;
 }
 
-export async function postAuthJson<T>(path: string, body: unknown): Promise<T> {
-  const res = await fetch(buildAuthUrl(path), {
+export async function postAuthJson<T>(path: string, body: { token: string } & Record<string, unknown>): Promise<T> {
+  const res = await fetch(buildAuthUrl(path, body.token), {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(body),
