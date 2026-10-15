@@ -57,7 +57,7 @@ const localeLabel: Record<Locale, string> = {
           </div>
           <button
             type="button"
-            class="btn btn-ghost hidden-mobile"
+            class="btn btn-header-cta hidden-mobile"
             data-get-app-open
             data-i18n="nav.getApp"
           >
@@ -92,7 +92,7 @@ const localeLabel: Record<Locale, string> = {
       <a href={`${basePath}#platforms`} data-locale-section="platforms" data-i18n="nav.platforms">{copy.nav.platforms}</a>
       <a class:list={['nav-guides', guidesActive && 'is-active']} href="/en/guides/" data-i18n="nav.guides">{copy.nav.guides}</a>
       <a class:list={['nav-guides', blogActive && 'is-active']} href="/en/blog/" data-i18n="nav.blog">{copy.nav.blog}</a>
-      <button type="button" class="nav-mobile-link" data-get-app-open data-i18n="nav.getApp">{copy.nav.getApp}</button>
+      <button type="button" class="nav-mobile-link nav-mobile-cta" data-get-app-open data-i18n="nav.getApp">{copy.nav.getApp}</button>
       </div>
       <div class="nav-mobile-lang">
       <div class="language-switcher" data-i18n-aria-label="nav.languageLabel">
@@ -143,6 +143,18 @@ const localeLabel: Record<Locale, string> = {
     </div>
   </dialog>
 </header>
+
+<style>
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .header-actions {
+    margin-left: auto;
+  }
+</style>
 
 <script>
   const toggle = document.getElementById('nav-toggle');

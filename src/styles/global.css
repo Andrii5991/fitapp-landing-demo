@@ -8,19 +8,22 @@
   --text: #f4f1f2;
   --text-muted: #a8a0a3;
   --text-faint: #7a7378;
-  --accent: #e85d35;
-  --accent-bright: #f07852;
-  --accent-hover: #f28f68;
-  --accent-dim: rgba(232, 93, 53, 0.16);
-  --on-accent: #120e0c;
+  --accent: #f24c00;
+  --accent-bright: #ff5a00;
+  --accent-hover: #ff6d1a;
+  --accent-dim: rgba(242, 76, 0, 0.16);
+  --on-accent: #fffaf7;
+  --header-bg: rgba(14, 16, 17, 0.28);
+  --header-text: #f4f1f2;
+  --header-muted: #b5b0b2;
   --border: rgba(244, 241, 242, 0.1);
   --focus: #e8c96a;
-  --mesh-a: rgba(232, 93, 53, 0.14);
+  --mesh-a: rgba(242, 76, 0, 0.14);
   --mesh-b: rgba(110, 165, 155, 0.1);
-  --mesh-c: rgba(232, 93, 53, 0.08);
+  --mesh-c: rgba(242, 76, 0, 0.08);
   --glow: radial-gradient(
     ellipse 90% 60% at 52% -22%,
-    rgba(232, 93, 53, 0.22),
+    rgba(242, 76, 0, 0.22),
     transparent 72%
   );
   --font-display: 'Outfit', 'Plus Jakarta Sans', system-ui, sans-serif;
@@ -32,13 +35,13 @@
   /* Below this width: drawer nav, stacked hero / features */
   --layout-nav-breakpoint: 720px;
   /* Pull hero under sticky header: safe area + header bar stack (~padding + bar height) */
-  --hero-under-header-offset: max(5rem, calc(env(safe-area-inset-top, 0px) + 3.9rem));
+  --hero-under-header-offset: max(4.65rem, calc(env(safe-area-inset-top, 0px) + 4.15rem));
   color-scheme: dark;
 }
 
 @media (max-width: 959px) {
   :root {
-    --hero-under-header-offset: max(4.85rem, calc(env(safe-area-inset-top, 0px) + 3.65rem));
+    --hero-under-header-offset: max(4.5rem, calc(env(safe-area-inset-top, 0px) + 4rem));
   }
 }
 
@@ -126,43 +129,44 @@ a {
   position: sticky;
   top: 0;
   z-index: 200;
-  padding-bottom: 0.35rem;
-  border-bottom: none;
-  background: transparent;
+  padding: max(0px, env(safe-area-inset-top, 0px)) 0 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  background-color: transparent;
+  background: rgba(14, 16, 17, 0.28);
+  color: var(--header-text);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
 }
 
 .header-bar {
   display: flex;
   align-items: center;
-  margin-top: 5px;
+  margin-top: 0;
   width: 100%;
-  padding: 0.45rem 0.85rem 0.45rem 1rem;
-  border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(14, 16, 17, 0.72);
-  box-shadow:
-    0 1px 0 rgba(255, 255, 255, 0.06) inset,
-    0 12px 40px rgba(0, 0, 0, 0.35);
-  backdrop-filter: blur(16px) saturate(165%);
+  padding: 0.55rem 0;
+  border-radius: 0;
+  border: none;
+  background: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
 }
 
-.header-inner {
+.site-header .header-inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 1rem;
-  min-height: 3.35rem;
-  flex: 1;
+  gap: 1.75rem;
+  min-height: 3.15rem;
   width: 100%;
 }
 
 @media (max-width: 719px) {
   .header-bar {
-    padding: 0.35rem 0.65rem 0.35rem 0.85rem;
-    border-radius: 1.05rem;
+    padding: 0.4rem 0;
   }
 
   .header-inner {
+    gap: 0.75rem;
     min-height: 3.1rem;
   }
 }
@@ -170,6 +174,7 @@ a {
 .header-inner .logo {
   flex-shrink: 0;
   min-width: 0;
+  color: var(--header-text);
 }
 
 .logo {
@@ -186,32 +191,34 @@ a {
 .nav-desktop {
   display: none;
   align-items: center;
-  gap: 2rem;
+  justify-content: flex-start;
+  flex: 1;
+  gap: 1.75rem;
+  min-width: 0;
 }
 
 .nav-desktop a {
-  color: var(--text-faint);
+  color: var(--header-muted);
   font-size: 0.9375rem;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  transition:
-    color 0.2s var(--ease-out-expo),
-    transform 0.2s var(--ease-out-expo);
+  font-weight: 500;
+  letter-spacing: 0;
+  transition: color 0.2s var(--ease-out-expo);
 }
 
 .nav-desktop a:hover {
-  color: var(--text);
-  transform: translateY(-1px);
+  color: var(--header-text);
 }
 
 .nav-desktop a.is-active {
-  color: var(--text);
+  color: var(--header-text);
+  font-weight: 600;
 }
 
 .header-actions {
   display: flex;
   align-items: center;
   gap: 0.75rem;
+  margin-left: auto;
 }
 
 /* Header language + CTA: same height, width from content, tighter padding */
@@ -233,24 +240,25 @@ a {
     align-items: center;
     justify-content: center;
     box-sizing: border-box;
-    height: 2.85rem;
-    min-height: 2.85rem;
-    max-height: 2.85rem;
+    height: 2.55rem;
+    min-height: 2.55rem;
+    max-height: 2.55rem;
     min-width: unset;
-    padding: 0 1.1rem;
-    border: 1px solid var(--border);
-    border-radius: 999px;
-    background: rgba(255, 255, 255, 0.02);
-    color: var(--text);
-    font-size: 0.9rem;
-    font-weight: 600;
-    letter-spacing: 0.01em;
+    padding: 0 0.85rem;
+    border: none;
+    border-radius: 0;
+    background: transparent;
+    color: var(--header-text);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    letter-spacing: 0;
     white-space: nowrap;
   }
 
   .header-actions .language-summary:hover {
-    background: rgba(255, 255, 255, 0.08);
-    border-color: rgba(255, 255, 255, 0.3);
+    background: transparent;
+    border-color: transparent;
+    color: #fff;
   }
 
   .header-actions .language-menu {
@@ -265,13 +273,13 @@ a {
     padding-inline: 0.85rem;
   }
 
-  .header-actions > .btn.btn-ghost {
+  .header-actions > .btn.btn-header-cta {
     flex-shrink: 0;
     box-sizing: border-box;
-    height: 2.85rem;
-    min-height: 2.85rem;
-    max-height: 2.85rem;
-    padding-inline: 0.95rem;
+    height: 2.55rem;
+    min-height: 2.55rem;
+    max-height: 2.55rem;
+    padding-inline: 1.15rem;
   }
 }
 
@@ -383,17 +391,17 @@ a {
   width: 2.75rem;
   height: 2.75rem;
   padding: 0;
-  border: 1px solid var(--border);
+  border: none;
   border-radius: 0.5rem;
-  background: color-mix(in srgb, var(--bg-elevated) 88%, black);
-  color: var(--text);
+  background: transparent;
+  color: var(--header-text);
   cursor: pointer;
   touch-action: manipulation;
   flex-shrink: 0;
 }
 
 .nav-toggle:hover {
-  background: var(--bg-tertiary);
+  background: rgba(255, 255, 255, 0.08);
 }
 
 .nav-toggle[aria-expanded='true'] .icon-menu {
@@ -438,7 +446,8 @@ a {
     display: flex;
     flex-direction: column;
     min-height: 100dvh;
-    background: var(--bg);
+    background: rgba(14, 16, 17, 0.92);
+    color: var(--header-text);
     padding-bottom: 0;
   }
 
@@ -452,7 +461,7 @@ a {
     flex: 1;
     width: 100%;
     padding: 0.75rem 0 max(1.5rem, env(safe-area-inset-bottom, 0px));
-    background: var(--bg);
+    background: transparent;
     border-top: 1px solid rgba(255, 255, 255, 0.08);
   }
 
@@ -504,12 +513,13 @@ a {
 
 .nav-mobile a {
   padding: 0.75rem 0;
-  color: var(--text-faint);
+  color: var(--header-muted);
   font-weight: 500;
 }
 
-.nav-mobile a:hover {
-  color: var(--text);
+.nav-mobile a:hover,
+.nav-mobile a.is-active {
+  color: var(--header-text);
 }
 
 .nav-mobile-scroll button.nav-mobile-link {
@@ -518,7 +528,7 @@ a {
   padding: 0.75rem 0;
   border: none;
   background: none;
-  color: var(--text-faint);
+  color: var(--header-muted);
   font: inherit;
   font-weight: 500;
   cursor: pointer;
@@ -526,7 +536,26 @@ a {
 }
 
 .nav-mobile-scroll button.nav-mobile-link:hover {
-  color: var(--text);
+  color: var(--header-text);
+}
+
+.nav-mobile-scroll button.nav-mobile-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0.85rem;
+  min-height: 2.85rem;
+  padding: 0.75rem 1.15rem;
+  border-radius: 999px;
+  background: #f4f1f2;
+  color: #161616;
+  font-weight: 600;
+  text-align: center;
+}
+
+.nav-mobile-scroll button.nav-mobile-cta:hover {
+  background: #fff;
+  color: #161616;
 }
 
 @media (min-width: 720px) {
@@ -561,20 +590,24 @@ a {
 }
 
 .btn-primary {
-  background: linear-gradient(112deg, var(--accent) 0%, var(--accent-bright) 100%);
+  background: var(--accent);
   color: var(--on-accent);
-  box-shadow:
-    0 6px 20px rgba(232, 93, 53, 0.28),
-    inset 0 1px 0 rgba(255, 255, 255, 0.12),
-    inset 0 -2px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: none;
 }
 
 .btn-primary:hover {
+  background: var(--accent-hover);
   transform: translateY(-1px);
-  box-shadow:
-    0 10px 28px rgba(232, 93, 53, 0.34),
-    inset 0 1px 0 rgba(255, 255, 255, 0.14),
-    inset 0 -2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.btn-header-cta {
+  background: #f4f1f2;
+  color: #161616;
+}
+
+.btn-header-cta:hover {
+  background: #fff;
+  transform: translateY(-1px);
 }
 
 .btn-ghost {
@@ -630,7 +663,7 @@ a {
   background-image:
     radial-gradient(
       ellipse 88% 62% at 48% -20%,
-      rgba(232, 93, 53, 0.14),
+      rgba(242, 76, 0), 0.14),
       transparent 68%
     ),
     radial-gradient(
@@ -664,7 +697,7 @@ a {
     background-image:
       radial-gradient(
         ellipse 88% 62% at 48% -20%,
-        rgba(232, 93, 53, 0.14),
+        rgba(242, 76, 0), 0.14),
         transparent 68%
       ),
       radial-gradient(
@@ -1275,7 +1308,7 @@ a {
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.08);
   background:
-    radial-gradient(ellipse 90% 55% at 50% 108%, rgba(232, 93, 53, 0.16), transparent 70%),
+    radial-gradient(ellipse 90% 55% at 50% 108%, rgba(242, 76, 0), 0.16), transparent 70%),
     linear-gradient(165deg, rgba(255, 255, 255, 0.055) 0%, rgba(20, 22, 24, 0.55) 100%);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.06),
@@ -1463,7 +1496,7 @@ a {
   height: 1.2rem;
   border-radius: 0.4rem;
   background:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23f07852' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 8.4l2.6 2.6L12 5.4'/%3E%3C/svg%3E")
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23ff5a00' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 8.4l2.6 2.6L12 5.4'/%3E%3C/svg%3E")
       center / 0.8rem no-repeat,
     var(--accent-dim);
 }
@@ -1478,7 +1511,7 @@ a {
   border-radius: var(--radius-xl);
   overflow: hidden;
   background:
-    radial-gradient(ellipse 60% 55% at 50% 58%, rgba(232, 93, 53, 0.2), transparent 72%),
+    radial-gradient(ellipse 60% 55% at 50% 58%, rgba(242, 76, 0), 0.2), transparent 72%),
     linear-gradient(165deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.02) 50%, transparent 100%),
     var(--bg-elevated);
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -1543,7 +1576,7 @@ a {
   inset: 0;
   pointer-events: none;
   background:
-    radial-gradient(ellipse 68% 52% at 14% 16%, rgba(232, 93, 53, 0.085), transparent 58%),
+    radial-gradient(ellipse 68% 52% at 14% 16%, rgba(242, 76, 0), 0.085), transparent 58%),
     radial-gradient(ellipse 52% 48% at 90% 82%, rgba(110, 165, 155, 0.07), transparent 62%),
     linear-gradient(180deg, rgba(255, 255, 255, 0.028), transparent 42%);
 }
@@ -1653,7 +1686,7 @@ a {
   border-radius: var(--radius-xl);
   overflow: hidden;
   background:
-    radial-gradient(ellipse 70% 90% at 0% 0%, rgba(232, 93, 53, 0.1), transparent 60%),
+    radial-gradient(ellipse 70% 90% at 0% 0%, rgba(242, 76, 0), 0.1), transparent 60%),
     linear-gradient(145deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.015)),
     var(--bg-elevated);
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -1837,10 +1870,10 @@ a {
   padding: clamp(3rem, 8vw, 5rem) clamp(1.5rem, 5vw, 4.5rem);
   border-radius: var(--radius-xl);
   background:
-    radial-gradient(ellipse 60% 80% at 82% 60%, rgba(232, 93, 53, 0.3), transparent 62%),
-    radial-gradient(circle at 10% -20%, rgba(232, 93, 53, 0.16), transparent 50%),
+    radial-gradient(ellipse 60% 80% at 82% 60%, rgba(242, 76, 0), 0.3), transparent 62%),
+    radial-gradient(circle at 10% -20%, rgba(242, 76, 0), 0.16), transparent 50%),
     linear-gradient(185deg, var(--bg-elevated), #121416);
-  border: 1px solid rgba(232, 93, 53, 0.2);
+  border: 1px solid rgba(242, 76, 0), 0.2);
   box-shadow:
     0 0 0 1px rgba(255, 255, 255, 0.05) inset,
     0 30px 80px rgba(4, 5, 6, 0.5);
@@ -1901,7 +1934,7 @@ a {
   border: none;
   box-shadow:
     0 30px 60px rgba(4, 5, 6, 0.55),
-    0 0 80px rgba(232, 93, 53, 0.18);
+    0 0 80px rgba(242, 76, 0), 0.18);
   background: transparent;
 }
 
@@ -2067,7 +2100,7 @@ a {
 
 .language-option.is-active {
   color: var(--on-accent);
-  background: linear-gradient(110deg, var(--accent) 0%, var(--accent-bright) 95%);
+  background: var(--accent);
 }
 
 .footer-language-switcher {
@@ -2101,10 +2134,10 @@ a {
   }
 
   .header-actions .language-summary,
-  .header-actions > .btn.btn-ghost {
-    height: 2.55rem;
-    min-height: 2.55rem;
-    max-height: 2.55rem;
+  .header-actions > .btn.btn-header-cta {
+    height: 2.4rem;
+    min-height: 2.4rem;
+    max-height: 2.4rem;
     padding-inline: 0.85rem;
     font-size: 0.84rem;
   }
@@ -2553,7 +2586,7 @@ a {
   font-weight: 700;
   letter-spacing: 0.04em;
   color: var(--on-accent);
-  background: linear-gradient(135deg, var(--accent), var(--accent-bright));
+  background: var(--accent);
 }
 
 .support-logo-text {
@@ -3125,9 +3158,9 @@ a {
   padding: clamp(1.5rem, 4vw, 2.25rem);
   border-radius: var(--radius-xl);
   background:
-    radial-gradient(ellipse 70% 120% at 100% 0%, rgba(232, 93, 53, 0.24), transparent 60%),
+    radial-gradient(ellipse 70% 120% at 100% 0%, rgba(242, 76, 0), 0.24), transparent 60%),
     var(--bg-elevated);
-  border: 1px solid rgba(232, 93, 53, 0.2);
+  border: 1px solid rgba(242, 76, 0), 0.2);
 }
 
 .guide-cta > div {
@@ -3307,7 +3340,7 @@ a {
 .guides-hub-card--lead a {
   min-height: 12rem;
   background:
-    radial-gradient(ellipse 70% 90% at 100% 0%, rgba(232, 93, 53, 0.18), transparent 60%),
+    radial-gradient(ellipse 70% 90% at 100% 0%, rgba(242, 76, 0), 0.18), transparent 60%),
     rgba(255, 255, 255, 0.03);
 }
 
